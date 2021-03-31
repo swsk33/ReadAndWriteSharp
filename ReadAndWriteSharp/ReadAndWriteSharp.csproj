@@ -35,8 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryUtils.cs" />
     <Compile Include="TextReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextWriter.cs" />

@@ -8,8 +8,8 @@ namespace MainTest
     {
         static void Main(string[] args)
         {
-            Encoding e = Encoding.GetEncoding("gbk");
-            Console.WriteLine(TextWriter.ClearAll(@"E:\中转\a.txt"));
+            
+            Console.WriteLine(BinaryUtils.ExtractTextFileInResx(Properties.Resources.testFile, @"E:\中转\o.txt"));
         }
     }
 }
