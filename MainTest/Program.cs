@@ -8,7 +8,8 @@ namespace MainTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(TextWriter.ReplaceSpecificLine(@"E:\中转\a.txt", "177", 7));
+            Encoding e = Encoding.GetEncoding("gbk");
+            Console.WriteLine(TextWriter.ClearAll(@"E:\中转\a.txt"));
         }
     }
 }
