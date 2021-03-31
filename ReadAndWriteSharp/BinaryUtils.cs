@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Swsk33.ReadAndWriteSharp
 {
@@ -123,6 +125,44 @@ namespace Swsk33.ReadAndWriteSharp
                 success = true;
             }
             return success;
+        }
+
+        /// <summary>
+        /// 获取文件MD5值
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns>MD5值</returns>
+        public static string GetFileMD5(string filePath)
+        {
+            FileStream file = new FileStream(filePath, FileMode.Open);
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] retVal = md5.ComputeHash(file);
+            file.Close();
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < retVal.Length; i++)
+            {
+                result.Append(retVal[i].ToString("x2"));
+            }
+            return result.ToString();
+        }
+
+        /// <summary>
+        /// 获取文件SHA1值
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns>SHA1值</returns>
+        public static string GetFileSHA1(string filePath)
+        {
+            FileStream file = new FileStream(filePath, FileMode.Open);
+            SHA1 sha1 = new SHA1CryptoServiceProvider();
+            byte[] retval = sha1.ComputeHash(file);
+            file.Close();
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < retval.Length; i++)
+            {
+                result.Append(retval[i].ToString("x2"));
+            }
+            return result.ToString();
         }
     }
 }

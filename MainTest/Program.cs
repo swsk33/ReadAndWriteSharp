@@ -9,7 +9,6 @@ namespace MainTest
         static void Main(string[] args)
         {
             
-            Console.WriteLine(BinaryUtils.ExtractTextFileInResx(Properties.Resources.testFile, @"E:\中转\o.txt"));
         }
     }
 }
