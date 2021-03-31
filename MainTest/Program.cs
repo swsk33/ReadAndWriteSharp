@@ -8,7 +8,7 @@ namespace MainTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(TextReader.GetFileLine(@"E:\中转\a.txt"));
+            Console.WriteLine(TextWriter.ReplaceSpecificLine(@"E:\中转\a.txt", "177", 7));
         }
     }
 }

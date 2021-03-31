@@ -4,7 +4,7 @@ using System.IO;
 namespace Swsk33.ReadAndWriteSharp
 {
     /// <summary>
-    /// 文件读取器
+    /// 文本文件读取器
     /// </summary>
     public class TextReader
     {
@@ -21,6 +21,7 @@ namespace Swsk33.ReadAndWriteSharp
             {
                 line++;
             }
+            reader.Close();
             return line;
         }
 
