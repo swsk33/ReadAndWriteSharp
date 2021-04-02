@@ -25,9 +25,9 @@
             return StandardOutput;
         }
 
-        public void SetStandardOutput(string StandardOutput)
+        public void SetStandardOutput(string standardOutput)
         {
-            this.StandardOutput = StandardOutput;
+            this.StandardOutput = standardOutput;
         }
 
         public string GetErrorOutput()
@@ -35,9 +35,9 @@
             return ErrorOutput;
         }
 
-        public void SetErrorOutput(string ErrorOutput)
+        public void SetErrorOutput(string errorOutput)
         {
-            this.ErrorOutput = ErrorOutput;
+            this.ErrorOutput = errorOutput;
         }
 
         public bool IsFinished()

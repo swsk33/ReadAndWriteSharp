@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Swsk33.ReadAndWriteSharp.Model;
+using System.Security.Cryptography;
 using System.Drawing;
 using System.Text;
 using System.IO;
@@ -38,6 +39,32 @@ namespace Swsk33.ReadAndWriteSharp
             writer.Write(content);
             writer.Close();
             file.Close();
+        }
+
+        /// <summary>
+        /// 获取文件夹信息并储存在一个DirInfo实例中，然后可以通过DirInfo实例的GetFileList()方法获取文件列表，GetSize()方法获取整个文件夹大小
+        /// </summary>
+        /// <param name="dirPath">文件夹路径</param>
+        /// <param name="info">DirInfo实例</param>
+        public static void GetDirectoryInfo(string dirPath, DirInfo info)
+        {
+            string[] files = Directory.GetFiles(dirPath);
+            if (files.Length != 0)
+            {
+                foreach (string file in files)
+                {
+                    info.AppendFileList(file);
+                    info.AddSize(new FileInfo(file).Length);
+                }
+            }
+            string[] dirs = Directory.GetDirectories(dirPath);
+            if (dirs.Length != 0)
+            {
+                foreach(string dir in dirs)
+                {
+                    GetDirectoryInfo(dir, info);
+                }
+            }
         }
 
         /// <summary>
