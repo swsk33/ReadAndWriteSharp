@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using System.IO;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Drawing;
 using System.Text;
+using System.IO;
 
 namespace Swsk33.ReadAndWriteSharp
 {

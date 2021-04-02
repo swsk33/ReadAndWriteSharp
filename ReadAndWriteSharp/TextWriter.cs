@@ -1,6 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.IO;
+using System;
 
 namespace Swsk33.ReadAndWriteSharp
 {
