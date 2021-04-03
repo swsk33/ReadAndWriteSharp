@@ -1,6 +1,5 @@
 ﻿using Swsk33.ReadAndWriteSharp.Model;
 using System.Security.Cryptography;
-using System.Reflection;
 using System.Drawing;
 using System.Text;
 using System.IO;
