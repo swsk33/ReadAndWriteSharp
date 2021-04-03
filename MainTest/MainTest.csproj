@@ -51,7 +51,7 @@
     <EmbeddedResource Include="Resources\testFile.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\7z-19.00-32位.exe" />
+    <EmbeddedResource Include="Resources\7z.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Swsk33.ReadAndWriteSharp.Model;
 using System.Security.Cryptography;
+using System.Reflection;
 using System.Drawing;
 using System.Text;
 using System.IO;
@@ -60,9 +61,42 @@ namespace Swsk33.ReadAndWriteSharp
             string[] dirs = Directory.GetDirectories(dirPath);
             if (dirs.Length != 0)
             {
-                foreach(string dir in dirs)
+                foreach (string dir in dirs)
                 {
                     GetDirectoryInfo(dir, info);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 复制文件夹
+        /// </summary>
+        /// <param name="origin">原文件夹</param>
+        /// <param name="dest">复制到的指定位置</param>
+        public static void CopyDir(string origin, string dest)
+        {
+            DirInfo info = new DirInfo();
+            GetDirectoryInfo(origin, info);
+            if (origin.EndsWith("\\"))
+            {
+                origin = origin.Substring(0, origin.Length - 1);
+            }
+            if (dest.EndsWith("\\"))
+            {
+                dest = dest.Substring(0, dest.Length - 1);
+            }
+            string destDirPath = dest + "\\" + origin.Substring(origin.LastIndexOf("\\") + 1);
+            foreach (string file in info.GetFileList())
+            {
+                string destFilePath = destDirPath + "\\" + file.Substring(origin.Length + 1);
+                if (File.Exists(file))
+                {
+                    string parentDir = destFilePath.Substring(0, destFilePath.LastIndexOf("\\"));
+                    if (!Directory.Exists(parentDir))
+                    {
+                        Directory.CreateDirectory(parentDir);
+                        File.Copy(file, destFilePath);
+                    }
                 }
             }
         }
