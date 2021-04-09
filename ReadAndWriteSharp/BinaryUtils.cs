@@ -1,4 +1,5 @@
-﻿using Swsk33.ReadAndWriteSharp.Model;
+﻿using System.Runtime.Serialization.Formatters.Binary;
+using Swsk33.ReadAndWriteSharp.Model;
 using System.Security.Cryptography;
 using System.Drawing;
 using System.Text;
@@ -32,13 +33,57 @@ namespace Swsk33.ReadAndWriteSharp
         /// </summary>
         /// <param name="filePath">待写入文件</param>
         /// <param name="content">写入内容</param>
-        public static void WriteBinaryFile(string filePath, byte[] content)
+        /// <returns>是否写入成功</returns>
+        public static bool WriteBinaryFile(string filePath, byte[] content)
         {
+            bool success = false;
             FileStream file = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
             BinaryWriter writer = new BinaryWriter(file);
             writer.Write(content);
             writer.Close();
             file.Close();
+            if (File.Exists(filePath))
+            {
+                success = true;
+            }
+            return success;
+        }
+
+        /// <summary>
+        /// 将可序列化的对象写入文件，文件不存在将创建，存在将被覆盖
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="filePath">待写入文件</param>
+        /// <param name="data">可序列化对象数据</param>
+        /// <returns>是否写入成功</returns>
+        public static bool WriteObjectToFile<T>(string filePath, T data)
+        {
+            bool success = false;
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memoryStream = new MemoryStream();
+            serializer.Serialize(memoryStream, data);
+            memoryStream.Position = 0;
+            byte[] dataBuffer = new byte[memoryStream.Length];
+            memoryStream.Read(dataBuffer, 0, dataBuffer.Length);
+            success = WriteBinaryFile(filePath, dataBuffer);
+            return success;
+        }
+
+        /// <summary>
+        /// 从文件中读取数据并反序列化为相应的对象
+        /// </summary>
+        /// <typeparam name="T">数据类型</typeparam>
+        /// <param name="filePath">待读取文件类型</param>
+        /// <returns>反序列化的对象</returns>
+        public static T ReadObjectFromFile<T>(string filePath)
+        {
+            byte[] data = ReadBinaryFile(filePath);
+            BinaryFormatter serializer = new BinaryFormatter();
+            MemoryStream memoryStream = new MemoryStream();
+            memoryStream.Write(data, 0, data.Length);
+            memoryStream.Position = 0;
+            T result = (T)serializer.Deserialize(memoryStream);
+            return result;
         }
 
         /// <summary>
