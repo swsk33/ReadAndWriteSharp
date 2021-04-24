@@ -3,7 +3,6 @@
 #### 介绍
 使用C#，基于 .NET Framework 的文件读写类库。<br>
 是使用C#对[ReadAndWriteJ](https://gitee.com/swsk33/ReadAndWriteJ)的实现。<br>
-使用 .NET 5 的dll的请前往[ReadAndWriteDotNet](https://gitee.com/swsk33/ReadAndWriteDotNet)<br>
 
 #### 使用方法
 下载发行版中dll文件，在vs2019中项目-引用里面添加即可。<br>
