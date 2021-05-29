@@ -1,53 +1,63 @@
 ﻿namespace Swsk33.ReadAndWriteSharp.Model
 {
-    /// <summary>
-    /// 终端实用类的输出结果
-    /// </summary>
-    public class TerminalResult
-    {
-        /// <summary>
-        /// 标准输出
-        /// </summary>
-        private string StandardOutput;
+	/// <summary>
+	/// 终端实用类的输出结果
+	/// </summary>
+	public class TerminalResult
+	{
 
-        /// <summary>
-        /// 标准错误
-        /// </summary>
-        private string ErrorOutput;
+		private string standardOutput;
 
-        /// <summary>
-        /// 命令是否执行完成
-        /// </summary>
-        private bool Finished = false;
+		private string errorOutput;
 
-        public string GetStandardOutput()
-        {
-            return StandardOutput;
-        }
+		private bool finished = false;
 
-        public void SetStandardOutput(string standardOutput)
-        {
-            this.StandardOutput = standardOutput;
-        }
+		/// <summary>
+		/// 标准输出
+		/// </summary>
+		public string StandardOutput
+		{
+			get
+			{
+				return standardOutput;
+			}
 
-        public string GetErrorOutput()
-        {
-            return ErrorOutput;
-        }
+			set
+			{
+				standardOutput = value;
+			}
+		}
 
-        public void SetErrorOutput(string errorOutput)
-        {
-            this.ErrorOutput = errorOutput;
-        }
+		/// <summary>
+		/// 标准错误
+		/// </summary>
+		public string ErrorOutput
+		{
+			get
+			{
+				return errorOutput;
+			}
 
-        public bool IsFinished()
-        {
-            return Finished;
-        }
+			set
+			{
+				errorOutput = value;
+			}
+		}
 
-        public void SetFinished(bool Finished)
-        {
-            this.Finished = Finished;
-        }
-    }
+		/// <summary>
+		/// 命令是否执行完成
+		/// </summary>
+		public bool Finished
+		{
+			get
+			{
+				return finished;
+			}
+
+			set
+			{
+				finished = value;
+			}
+		}
+	}
 }
