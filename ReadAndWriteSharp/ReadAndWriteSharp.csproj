@@ -40,10 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryUtils.cs" />
-    <Compile Include="Exception\JSONParseException.cs" />
-    <Compile Include="JSONUtils.cs" />
     <Compile Include="Model\DirInfo.cs" />
+    <Compile Include="Model\NetRequest.cs" />
     <Compile Include="Model\TerminalResult.cs" />
+    <Compile Include="NetworkUtil.cs" />
+    <Compile Include="Param\UserAgentValue.cs" />
     <Compile Include="TerminalUtils.cs" />
     <Compile Include="TextFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
