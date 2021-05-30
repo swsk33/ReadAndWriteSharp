@@ -8,7 +8,7 @@ namespace MainTest
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine(NetworkUtil.SendGetRequest("https://cn.bing.com", UserAgentValue.CHROME));
+			Console.WriteLine(NetworkUtil.DownloadFile("https://img-home.csdnimg.cn/images/20201124032511.png", "E:\\中转\\a.png"));
 		}
 	}
 }
