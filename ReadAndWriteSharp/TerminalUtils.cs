@@ -46,7 +46,7 @@ namespace Swsk33.ReadAndWriteSharp
 				}
 				process.WaitForExit();
 			}
-			catch (Exception)
+			catch (ApplicationException)
 			{
 				//none
 			}
@@ -94,7 +94,7 @@ namespace Swsk33.ReadAndWriteSharp
 					}
 					process.WaitForExit();
 				}
-				catch (Exception)
+				catch (ApplicationException)
 				{
 					//none
 				}
