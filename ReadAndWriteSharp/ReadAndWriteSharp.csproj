@@ -45,6 +45,7 @@
     <Compile Include="NetworkUtil.cs" />
     <Compile Include="Param\ContentTypeValue.cs" />
     <Compile Include="Param\UserAgentValue.cs" />
+    <Compile Include="RegUtils.cs" />
     <Compile Include="TerminalUtils.cs" />
     <Compile Include="TextFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

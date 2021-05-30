@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Win32;
 using Swsk33.ReadAndWriteSharp;
 using Swsk33.ReadAndWriteSharp.Param;
 
@@ -8,7 +9,7 @@ namespace MainTest
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine(NetworkUtil.DownloadFile("https://img-home.csdnimg.cn/images/20201124032511.png", "E:\\中转\\a.png"));
+			Console.WriteLine(RegUtils.IsItemExists(Registry.LocalMachine, @"SOFTWARE"));
 		}
 	}
 }

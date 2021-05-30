@@ -46,7 +46,7 @@ namespace Swsk33.ReadAndWriteSharp
 				}
 				process.WaitForExit();
 			}
-			catch (ApplicationException)
+			catch (Exception)
 			{
 				//none
 			}
@@ -64,7 +64,7 @@ namespace Swsk33.ReadAndWriteSharp
 		/// </summary>
 		/// <param name="command">调用命令</param>
 		/// <param name="args">命令参数</param>
-		/// <param name="result">TerminalResult类型的实例，用于实时存放命令行的输出结果，先实例化一个TerminalResult对象并传入，然后可以在主线程实时获取结果</param>
+		/// <param name="result">TerminalResult类型的实例，位于Swsk33.ReadAndWriteSharp.Model下，用于实时存放命令行的输出结果，先实例化一个TerminalResult对象并传入，然后可以在主线程实时获取结果</param>
 		public static void RunCommandAsynchronously(string command, string args, TerminalResult result)
 		{
 			new Thread(() =>
@@ -94,7 +94,7 @@ namespace Swsk33.ReadAndWriteSharp
 					}
 					process.WaitForExit();
 				}
-				catch (ApplicationException)
+				catch (Exception)
 				{
 					//none
 				}
