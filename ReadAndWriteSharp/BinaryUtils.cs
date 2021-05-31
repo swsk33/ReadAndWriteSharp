@@ -86,10 +86,10 @@ namespace Swsk33.ReadAndWriteSharp
 		}
 
 		/// <summary>
-		/// 获取文件夹信息并储存在一个DirInfo实例中，然后可以通过DirInfo实例的GetFileList()方法获取文件列表，GetSize()方法获取整个文件夹大小
+		/// 获取文件夹信息并储存在一个DirInfo实例中
 		/// </summary>
 		/// <param name="dirPath">文件夹路径</param>
-		/// <param name="info">DirInfo实例</param>
+		/// <param name="info">DirInfo实例，位于Swsk33.ReadAndWriteSharp.Model下</param>
 		public static void GetDirectoryInfo(string dirPath, DirInfo info)
 		{
 			string[] files = Directory.GetFiles(dirPath);
