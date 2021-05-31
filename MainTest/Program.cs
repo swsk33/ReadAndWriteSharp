@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Win32;
 using Swsk33.ReadAndWriteSharp;
+using Swsk33.ReadAndWriteSharp.Model;
 using Swsk33.ReadAndWriteSharp.Param;
 
 namespace MainTest
@@ -9,7 +9,7 @@ namespace MainTest
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine(RegUtils.IsItemExists(Registry.LocalMachine, @"SOFTWARE"));
+
 		}
 	}
 }

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Win32;
+using Swsk33.ReadAndWriteSharp.Model;
+using System;
 
 namespace Swsk33.ReadAndWriteSharp
 {
@@ -65,6 +67,200 @@ namespace Swsk33.ReadAndWriteSharp
 			}
 			mainKey.Close();
 			return result;
+		}
+
+		/// <summary>
+		/// 添加/移除开机启动项
+		/// </summary>
+		/// <param name="name">启动项名</param>
+		/// <param name="exec">启动项执行的命令，可以是可执行文件绝对路径，也可以是命令+参数。如果是移除操作此项无效</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应启动项，值为false时则为移除相应启动项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateBootOption(string name, string exec, bool isAddOption)
+		{
+			string optionName = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+			RegistryKey key = Registry.LocalMachine.OpenSubKey(optionName, true);
+			if (isAddOption)
+			{
+				key.SetValue(name, exec);
+			}
+			else
+			{
+				key.DeleteValue(name, false);
+			}
+			key.Close();
+			return !isAddOption ^ IsValueExists(Registry.LocalMachine, optionName, name);
+		}
+
+		/// <summary>
+		/// 添加/移除文件或者文件夹右键菜单
+		/// </summary>
+		/// <param name="name">右键菜单显示名</param>
+		/// <param name="exec">执行命令，如果是移除操作此项无效（一般是"可执行文件路径" "参数"的格式，此处在编程时可以写作：\"可执行文件路径\" \"参数\"，其中参数中右键被选中的文件表示为"%l"</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateFileOrDirRightMenu(string name, string exec, bool isAddOption)
+		{
+			string optionName = "*\\shell\\" + name;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
+				key.SetValue("", name);
+				RegistryKey commandKey = key.CreateSubKey("command");
+				commandKey.SetValue("", exec);
+				commandKey.Close();
+				key.Close();
+			}
+			else
+			{
+				Registry.ClassesRoot.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.ClassesRoot, optionName);
+		}
+
+		/// <summary>
+		/// 添加/移除文件或者文件夹右键菜单，且在添加操作时指定其图标
+		/// </summary>
+		/// <param name="name">右键菜单显示名</param>
+		/// <param name="iconPath">图标文件位置，可以是ico文件也可以是exe可执行文件位置，如果是移除操作此项无效</param>
+		/// <param name="exec">执行命令，如果是移除操作此项无效（一般是"可执行文件路径" "参数"的格式，此处在编程时可以写作：\"可执行文件路径\" \"参数\"，其中参数中右键被选中的文件表示为"%l"</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateFileOrDirRightMenu(string name, string iconPath, string exec, bool isAddOption)
+		{
+			string optionName = "*\\shell\\" + name;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
+				key.SetValue("", name);
+				key.SetValue("Icon", iconPath);
+				RegistryKey commandKey = key.CreateSubKey("command");
+				commandKey.SetValue("", exec);
+				commandKey.Close();
+				key.Close();
+			}
+			else
+			{
+				Registry.ClassesRoot.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.ClassesRoot, optionName);
+		}
+
+		/// <summary>
+		/// 添加/移除文件夹背景/桌面右键菜单
+		/// </summary>
+		/// <param name="name">右键菜单名</param>
+		/// <param name="exec">执行命令，最好用双引号包围，如果是移除操作此项无效</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateDirectoryBackgroundMenu(string name, string exec, bool isAddOption)
+		{
+			string optionName = "Directory\\Background\\shell\\" + name;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
+				key.SetValue("", name);
+				RegistryKey commandKey = key.CreateSubKey("command");
+				commandKey.SetValue("", exec);
+				commandKey.Close();
+				key.Close();
+			}
+			else
+			{
+				Registry.ClassesRoot.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.ClassesRoot, optionName);
+		}
+
+		/// <summary>
+		/// 添加/移除文件夹背景/桌面右键菜单，且在添加操作时指定其图标
+		/// </summary>
+		/// <param name="name">右键菜单名</param>
+		/// <param name="iconPath">图标文件位置，可以是ico文件也可以是exe可执行文件位置，如果是移除操作此项无效</param>
+		/// <param name="exec">执行命令，最好用双引号包围，如果是移除操作此项无效</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateDirectoryBackgroundMenu(string name, string iconPath, string exec, bool isAddOption)
+		{
+			string optionName = "Directory\\Background\\shell\\" + name;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
+				key.SetValue("", name);
+				key.SetValue("Icon", iconPath);
+				RegistryKey commandKey = key.CreateSubKey("command");
+				commandKey.SetValue("", exec);
+				commandKey.Close();
+				key.Close();
+			}
+			else
+			{
+				Registry.ClassesRoot.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.ClassesRoot, optionName);
+		}
+
+		/// <summary>
+		/// 添加/删除应用程序卸载信息条目
+		/// </summary>
+		/// <param name="appInfo">应用程序卸载信息实例，位于Swsk33.ReadAndWriteSharp.Model下，先实例化AppUninstallInfo类并设定其中的各个参数信息，然后传入，添加操作时其中除了应用程序显示名称和卸载命令之外都可以缺省，如果是移除操作就只需要设定其中的应用程序显示名称</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateAppUninstallItem(AppUninstallInfo appInfo, bool isAddOption)
+		{
+			if ((isAddOption && appInfo.DisplayName == null && appInfo.UninstallString == null) || (!isAddOption && appInfo.DisplayName == null))
+			{
+				throw new Exception("添加应用程序信息时必须要有程序名和卸载命令！移除应用程序信息时必须要有程序名！");
+			}
+			string optionName = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + appInfo.DisplayName;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.LocalMachine.CreateSubKey(optionName);
+				key.SetValue("DisplayName", appInfo.DisplayName);
+				key.SetValue("UninstallString", appInfo.UninstallString);
+				if (appInfo.DisplayIcon != null)
+				{
+					key.SetValue("DisplayIcon", appInfo.DisplayIcon);
+				}
+				if (appInfo.DisplayVersion != null)
+				{
+					key.SetValue("DisplayVersion", appInfo.DisplayVersion);
+				}
+				if (appInfo.Publisher != null)
+				{
+					key.SetValue("Publisher", appInfo.Publisher);
+				}
+				if (appInfo.EstimatedSize != 0)
+				{
+					key.SetValue("EstimatedSize", appInfo.EstimatedSize, RegistryValueKind.DWord);
+				}
+				if (appInfo.InstallPath != null)
+				{
+					key.SetValue("InstallLocation", appInfo.InstallPath);
+				}
+				if (appInfo.ModifyPath != null)
+				{
+					key.SetValue("ModifyPath", appInfo.ModifyPath);
+				}
+				int noModify = 1;
+				int noRepair = 1;
+				if (!appInfo.NoModify)
+				{
+					noModify = 0;
+				}
+				if (!appInfo.NoRepair)
+				{
+					noRepair = 0;
+				}
+				key.SetValue("NoModify", noModify, RegistryValueKind.DWord);
+				key.SetValue("NoRepair", noRepair, RegistryValueKind.DWord);
+				key.Close();
+			}
+			else
+			{
+				Registry.LocalMachine.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.LocalMachine, optionName);
 		}
 	}
 }

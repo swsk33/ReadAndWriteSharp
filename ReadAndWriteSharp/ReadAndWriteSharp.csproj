@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryUtils.cs" />
+    <Compile Include="Model\AppUninstallInfo.cs" />
     <Compile Include="Model\DirInfo.cs" />
     <Compile Include="Model\TerminalResult.cs" />
     <Compile Include="NetworkUtil.cs" />
