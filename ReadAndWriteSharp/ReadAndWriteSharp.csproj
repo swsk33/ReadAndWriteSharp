@@ -43,7 +43,7 @@
     <Compile Include="Model\AppUninstallInfo.cs" />
     <Compile Include="Model\DirInfo.cs" />
     <Compile Include="Model\TerminalResult.cs" />
-    <Compile Include="NetworkUtil.cs" />
+    <Compile Include="NetworkUtils.cs" />
     <Compile Include="Param\ContentTypeValue.cs" />
     <Compile Include="Param\UserAgentValue.cs" />
     <Compile Include="RegUtils.cs" />
@@ -51,6 +51,7 @@
     <Compile Include="TextFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextFileWriter.cs" />
+    <Compile Include="TextUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

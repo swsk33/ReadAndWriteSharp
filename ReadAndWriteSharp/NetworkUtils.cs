@@ -8,7 +8,7 @@ namespace Swsk33.ReadAndWriteSharp
 	/// <summary>
 	/// 网络实用类
 	/// </summary>
-	public class NetworkUtil
+	public class NetworkUtils
 	{
 		/// <summary>
 		/// 发送GET请求
