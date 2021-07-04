@@ -68,12 +68,14 @@ using Swsk33.ReadAndWriteSharp;
 - static bool IsItemExists(RegistryKey mainKey, string itemName)：判断注册表项是否存在
 - static bool IsValueExists(RegistryKey mainKey, string itemName, string valueName)：判断注册表某一项的某个值是否存在
 - static bool OperateBootOption(string name, string exec, bool isAddOption)：添加/移除开机启动项
-- static bool OperateFileOrDirRightMenu(string name, string exec, bool isAddOption)：添加/移除文件或者文件夹右键菜单
-- static bool OperateFileOrDirRightMenu(string name, string iconPath, string exec, bool isAddOption)：添加/移除文件或者文件夹右键菜单，且在添加操作时指定其图标
+- static bool OperateFileRightMenu(string name, string exec, bool isAddOption)：添加/移除文件右键菜单
+- static bool OperateFileRightMenu(string name, string iconPath, string exec, bool isAddOption)：添加/移除文件右键菜单，且在添加操作时指定其图标
+- static bool OperateDirectoryRightMenu(string name, string exec, bool isAddOption)：添加/移除文件夹右键菜单
+- static bool OperateDirectoryRightMenu(string name, string iconPath, string exec, bool isAddOption)：添加/移除文件夹右键菜单，且在添加操作时指定其图标
 - static bool OperateDirectoryBackgroundMenu(string name, string exec, bool isAddOption)：添加/移除文件夹背景/桌面右键菜单
 - static bool OperateDirectoryBackgroundMenu(string name, string iconPath, string exec, bool isAddOption)：添加/移除文件夹背景/桌面右键菜单，且在添加操作时指定其图标
 - static bool OperateAppUninstallItem(AppUninstallInfo appInfo, bool isAddOption)：添加/删除应用程序卸载信息条目
 
 **在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包**<br>
 
->最后更新：2021.6.21
+>最后更新：2021.7.4
