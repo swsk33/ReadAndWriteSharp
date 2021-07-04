@@ -93,13 +93,13 @@ namespace Swsk33.ReadAndWriteSharp
 		}
 
 		/// <summary>
-		/// 添加/移除文件或者文件夹右键菜单
+		/// 添加/移除文件右键菜单
 		/// </summary>
 		/// <param name="name">右键菜单显示名</param>
 		/// <param name="exec">执行命令，如果是移除操作此项无效（一般是"可执行文件路径" "参数"的格式，此处在编程时可以写作：\"可执行文件路径\" \"参数\"，其中参数中右键被选中的文件表示为"%l"</param>
 		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
 		/// <returns>是否操作成功</returns>
-		public static bool OperateFileOrDirRightMenu(string name, string exec, bool isAddOption)
+		public static bool OperateFileRightMenu(string name, string exec, bool isAddOption)
 		{
 			string optionName = "*\\shell\\" + name;
 			if (isAddOption)
@@ -119,16 +119,70 @@ namespace Swsk33.ReadAndWriteSharp
 		}
 
 		/// <summary>
-		/// 添加/移除文件或者文件夹右键菜单，且在添加操作时指定其图标
+		/// 添加/移除文件右键菜单，且在添加操作时指定其图标
 		/// </summary>
 		/// <param name="name">右键菜单显示名</param>
 		/// <param name="iconPath">图标文件位置，可以是ico文件也可以是exe可执行文件位置，如果是移除操作此项无效</param>
 		/// <param name="exec">执行命令，如果是移除操作此项无效（一般是"可执行文件路径" "参数"的格式，此处在编程时可以写作：\"可执行文件路径\" \"参数\"，其中参数中右键被选中的文件表示为"%l"</param>
 		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
 		/// <returns>是否操作成功</returns>
-		public static bool OperateFileOrDirRightMenu(string name, string iconPath, string exec, bool isAddOption)
+		public static bool OperateFileRightMenu(string name, string iconPath, string exec, bool isAddOption)
 		{
 			string optionName = "*\\shell\\" + name;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
+				key.SetValue("", name);
+				key.SetValue("Icon", iconPath);
+				RegistryKey commandKey = key.CreateSubKey("command");
+				commandKey.SetValue("", exec);
+				commandKey.Close();
+				key.Close();
+			}
+			else
+			{
+				Registry.ClassesRoot.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.ClassesRoot, optionName);
+		}
+
+		/// <summary>
+		/// 添加/移除文件夹右键菜单
+		/// </summary>
+		/// <param name="name">右键菜单显示名</param>
+		/// <param name="exec">执行命令，如果是移除操作此项无效（一般是"可执行文件路径" "参数"的格式，此处在编程时可以写作：\"可执行文件路径\" \"参数\"，其中参数中右键被选中的文件表示为"%l"</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateDirectoryRightMenu(string name, string exec, bool isAddOption)
+		{
+			string optionName = "Directory\\shell\\" + name;
+			if (isAddOption)
+			{
+				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
+				key.SetValue("", name);
+				RegistryKey commandKey = key.CreateSubKey("command");
+				commandKey.SetValue("", exec);
+				commandKey.Close();
+				key.Close();
+			}
+			else
+			{
+				Registry.ClassesRoot.DeleteSubKeyTree(optionName, false);
+			}
+			return !isAddOption ^ IsItemExists(Registry.ClassesRoot, optionName);
+		}
+
+		/// <summary>
+		/// 添加/移除文件夹右键菜单，且在添加操作时指定其图标
+		/// </summary>
+		/// <param name="name">右键菜单显示名</param>
+		/// <param name="iconPath">图标文件位置，可以是ico文件也可以是exe可执行文件位置，如果是移除操作此项无效</param>
+		/// <param name="exec">执行命令，如果是移除操作此项无效（一般是"可执行文件路径" "参数"的格式，此处在编程时可以写作：\"可执行文件路径\" \"参数\"，其中参数中右键被选中的文件表示为"%l"</param>
+		/// <param name="isAddOption">此值为true时则进行添加相应项，值为false时则为移除相应项</param>
+		/// <returns>是否操作成功</returns>
+		public static bool OperateDirectoryRightMenu(string name, string iconPath, string exec, bool isAddOption)
+		{
+			string optionName = "Directory\\shell\\" + name;
 			if (isAddOption)
 			{
 				RegistryKey key = Registry.ClassesRoot.CreateSubKey(optionName);
