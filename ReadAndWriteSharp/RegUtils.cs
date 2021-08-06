@@ -13,33 +13,42 @@ namespace Swsk33.ReadAndWriteSharp
 		/// 判断注册表某一项是否存在
 		/// </summary>
 		/// <param name="mainKey">主键，例如HKEY_LOCAL_MACHINE表示为Registry.LocalMachine</param>
-		/// <param name="itemName">完整项名</param>
+		/// <param name="itemName">完整项名，例如HKEY_LOCAL_MACHINE\SOFTWARE\Clients的完整项名是：SOFTWARE\Clients</param>
 		/// <returns>项是否存在</returns>
 		public static bool IsItemExists(RegistryKey mainKey, string itemName)
 		{
-			bool result = false;
-			string simpleItemName;
-			string[] itemNames;
-			if (itemName.Contains("\\"))
+			if (itemName.StartsWith("\\"))
 			{
-				simpleItemName = itemName.Substring(itemName.LastIndexOf("\\") + 1, itemName.Length - itemName.LastIndexOf("\\") - 1);
-				itemNames = mainKey.OpenSubKey(itemName.Substring(0, itemName.LastIndexOf("\\"))).GetSubKeyNames();
+				itemName = itemName.Substring(1, itemName.Length - 1);
 			}
-			else
+			if (itemName.EndsWith("\\"))
 			{
-				simpleItemName = itemName;
-				itemNames = mainKey.GetSubKeyNames();
+				itemName = itemName.Substring(0, itemName.Length - 1);
 			}
-			foreach (string name in itemNames)
+			string[] items = itemName.Split('\\');
+			string[] subKeys;
+			bool subKeyExists;
+			foreach (string item in items)
 			{
-				if (name.Equals(simpleItemName))
+				subKeyExists = false;
+				subKeys = mainKey.GetSubKeyNames();
+				foreach (string subKey in subKeys)
 				{
-					result = true;
-					break;
+					if (subKey.Equals(item))
+					{
+						mainKey = mainKey.OpenSubKey(item);
+						subKeyExists = true;
+						break;
+					}
+				}
+				if (!subKeyExists)
+				{
+					mainKey.Close();
+					return false;
 				}
 			}
 			mainKey.Close();
-			return result;
+			return true;
 		}
 
 		/// <summary>

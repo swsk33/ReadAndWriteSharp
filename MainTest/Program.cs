@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Win32;
 using Swsk33.ReadAndWriteSharp;
 using Swsk33.ReadAndWriteSharp.Model;
 using Swsk33.ReadAndWriteSharp.Param;
