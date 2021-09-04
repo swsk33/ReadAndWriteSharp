@@ -10,7 +10,6 @@ namespace MainTest
 	{
 		static void Main(string[] args)
 		{
-
 		}
 	}
 }
