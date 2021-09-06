@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Swsk33.ReadAndWriteSharp
+namespace Swsk33.ReadAndWriteSharp.FileUtil
 {
 	/// <summary>
 	/// 文本文件读取器

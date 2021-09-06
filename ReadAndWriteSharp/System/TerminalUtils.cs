@@ -1,9 +1,10 @@
-﻿using Swsk33.ReadAndWriteSharp.Model;
+﻿using Swsk33.ReadAndWriteSharp.System.Result;
+using Swsk33.ReadAndWriteSharp.Util;
 using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace Swsk33.ReadAndWriteSharp
+namespace Swsk33.ReadAndWriteSharp.System
 {
 	/// <summary>
 	/// 终端实用类

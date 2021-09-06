@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 
-namespace Swsk33.ReadAndWriteSharp
+namespace Swsk33.ReadAndWriteSharp.FileUtil
 {
 	/// <summary>
 	/// 文本文件写入器
@@ -16,7 +15,7 @@ namespace Swsk33.ReadAndWriteSharp
 		/// <param name="content">替换内容</param>
 		/// <param name="line">指定行</param>
 		/// <returns>是否替换成功</returns>
-		public static bool ReplaceSpecificLine(String filePath, string content, int line)
+		public static bool ReplaceSpecificLine(string filePath, string content, int line)
 		{
 			bool success = false;
 			int totalLine = TextFileReader.GetFileLine(filePath);
@@ -59,7 +58,7 @@ namespace Swsk33.ReadAndWriteSharp
 		/// <param name="line">指定行</param>
 		/// <param name="encoding">指定编码。例如GBK可填入Encoding.GetEncoding("gbk")，UTF8填入Encoding.GetEncoding("utf-8")</param>
 		/// <returns>是否替换成功</returns>
-		public static bool ReplaceSpecificLine(String filePath, string content, int line, Encoding encoding)
+		public static bool ReplaceSpecificLine(string filePath, string content, int line, Encoding encoding)
 		{
 			bool success = false;
 			int totalLine = TextFileReader.GetFileLine(filePath);

@@ -1,4 +1,4 @@
-﻿namespace Swsk33.ReadAndWriteSharp.Model
+﻿namespace Swsk33.ReadAndWriteSharp.System.Param
 {
 	/// <summary>
 	/// 软件卸载信息类

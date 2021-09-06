@@ -1,11 +1,11 @@
-﻿using Swsk33.ReadAndWriteSharp.Model;
+﻿using Swsk33.ReadAndWriteSharp.Model.System.Param;
 using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Swsk33.ReadAndWriteSharp
+namespace Swsk33.ReadAndWriteSharp.FileUtil
 {
 	/// <summary>
 	/// 二进制文件工具类
@@ -89,7 +89,7 @@ namespace Swsk33.ReadAndWriteSharp
 		/// 获取文件夹信息并储存在一个DirInfo实例中
 		/// </summary>
 		/// <param name="dirPath">文件夹路径</param>
-		/// <param name="info">DirInfo实例，位于Swsk33.ReadAndWriteSharp.Model下</param>
+		/// <param name="info">DirInfo实例</param>
 		public static void GetDirectoryInfo(string dirPath, DirInfo info)
 		{
 			string[] files = Directory.GetFiles(dirPath);

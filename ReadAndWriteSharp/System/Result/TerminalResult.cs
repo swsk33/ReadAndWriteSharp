@@ -1,4 +1,4 @@
-﻿namespace Swsk33.ReadAndWriteSharp.Model
+﻿namespace Swsk33.ReadAndWriteSharp.System.Result
 {
 	/// <summary>
 	/// 终端实用类的输出结果

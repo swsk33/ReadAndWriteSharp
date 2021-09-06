@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Swsk33.ReadAndWriteSharp.Model
+namespace Swsk33.ReadAndWriteSharp.Model.System.Param
 {
 	/// <summary>
 	/// 文件夹信息类

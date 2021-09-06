@@ -1,8 +1,8 @@
 ﻿using Microsoft.Win32;
-using Swsk33.ReadAndWriteSharp.Model;
+using Swsk33.ReadAndWriteSharp.System.Param;
 using System;
 
-namespace Swsk33.ReadAndWriteSharp
+namespace Swsk33.ReadAndWriteSharp.System
 {
 	/// <summary>
 	/// 注册表实用类

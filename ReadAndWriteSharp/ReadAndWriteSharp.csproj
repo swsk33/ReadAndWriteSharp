@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Swsk33.ReadAndWriteSharp</RootNamespace>
     <AssemblyName>ReadAndWriteSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\ReadAndWriteSharp.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -39,19 +42,20 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryUtils.cs" />
-    <Compile Include="Model\AppUninstallInfo.cs" />
-    <Compile Include="Model\DirInfo.cs" />
-    <Compile Include="Model\TerminalResult.cs" />
-    <Compile Include="NetworkUtils.cs" />
-    <Compile Include="Param\ContentTypeValue.cs" />
-    <Compile Include="Param\UserAgentValue.cs" />
-    <Compile Include="RegUtils.cs" />
-    <Compile Include="TerminalUtils.cs" />
-    <Compile Include="TextFileReader.cs" />
+    <Compile Include="FileUtil\BinaryUtils.cs" />
+    <Compile Include="System\Param\AppUninstallInfo.cs" />
+    <Compile Include="System\Param\DirInfo.cs" />
+    <Compile Include="System\Result\TerminalResult.cs" />
+    <Compile Include="Network\NetworkUtils.cs" />
+    <Compile Include="Network\Param\ContentTypeValue.cs" />
+    <Compile Include="Network\Param\RequestMethod.cs" />
+    <Compile Include="Network\Param\UserAgentValue.cs" />
+    <Compile Include="System\RegUtils.cs" />
+    <Compile Include="System\TerminalUtils.cs" />
+    <Compile Include="FileUtil\TextFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TextFileWriter.cs" />
-    <Compile Include="TextUtils.cs" />
+    <Compile Include="FileUtil\TextFileWriter.cs" />
+    <Compile Include="Util\TextUtils.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

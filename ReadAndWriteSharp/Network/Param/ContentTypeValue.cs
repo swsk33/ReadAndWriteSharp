@@ -1,4 +1,4 @@
-﻿namespace Swsk33.ReadAndWriteSharp.Param
+﻿namespace Swsk33.ReadAndWriteSharp.Network.Param
 {
 	/// <summary>
 	/// 网络请求类的请求内容类型常量值

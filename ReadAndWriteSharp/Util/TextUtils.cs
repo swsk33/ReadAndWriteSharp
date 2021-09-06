@@ -1,4 +1,4 @@
-﻿namespace Swsk33.ReadAndWriteSharp
+﻿namespace Swsk33.ReadAndWriteSharp.Util
 {
 	/// <summary>
 	/// 文本处理实用类
@@ -59,6 +59,41 @@
 				}
 			}
 			return result;
+		}
+
+		/// <summary>
+		/// 移除原字符串末尾反斜杠(\)，若原字符串不以反斜杠结尾则不作任何操作
+		/// </summary>
+		/// <param name="origin">原字符串</param>
+		/// <returns>移除末尾反斜杠后的字符串</returns>
+		public static string RemoveEndBackslash(string origin)
+		{
+			if (origin.EndsWith("\\"))
+			{
+				origin = origin.Substring(0, origin.LastIndexOf("\\"));
+			}
+			return origin;
+		}
+
+		/// <summary>
+		/// 传入文件（夹）路径（绝对或者相对）获取文件（夹）名
+		/// </summary>
+		/// <param name="filePath">文件路径</param>
+		/// <returns>文件名</returns>
+		public static string GetFileNameFromPath(string filePath)
+		{
+			filePath = RemoveEndBackslash(filePath);
+			filePath = filePath.Replace('\\', '/');
+			string fileName;
+			if (!filePath.Contains("/"))
+			{
+				fileName = filePath;
+			}
+			else
+			{
+				fileName = filePath.Substring(filePath.LastIndexOf("/") + 1);
+			}
+			return fileName;
 		}
 	}
 }
