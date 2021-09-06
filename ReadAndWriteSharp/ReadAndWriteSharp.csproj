@@ -40,6 +40,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileUtil\BinaryUtils.cs" />
@@ -48,7 +49,6 @@
     <Compile Include="System\Result\TerminalResult.cs" />
     <Compile Include="Network\NetworkUtils.cs" />
     <Compile Include="Network\Param\ContentTypeValue.cs" />
-    <Compile Include="Network\Param\RequestMethod.cs" />
     <Compile Include="Network\Param\UserAgentValue.cs" />
     <Compile Include="System\RegUtils.cs" />
     <Compile Include="System\TerminalUtils.cs" />
