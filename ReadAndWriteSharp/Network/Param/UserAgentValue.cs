@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Swsk33.ReadAndWriteSharp.Network.Param
+﻿namespace Swsk33.ReadAndWriteSharp.Network.Param
 {
 	/// <summary>
 	/// 网络请求类中的常用UA值
