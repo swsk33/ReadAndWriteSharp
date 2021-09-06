@@ -29,66 +29,6 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		}
 
 		/// <summary>
-		/// 设定指定请求的标头
-		/// </summary>
-		/// <param name="request">请求对象</param>
-		/// <param name="headers">自定义请求头</param>
-		private static void setHeaders(HttpWebRequest request, Dictionary<string, string> headers)
-		{
-			foreach (string key in headers.Keys)
-			{
-				if (key.Equals("Accept", StringComparison.OrdinalIgnoreCase))
-				{
-					request.Accept = headers[key];
-				}
-				else if (key.Equals("Connection", StringComparison.OrdinalIgnoreCase))
-				{
-					request.Connection = headers[key];
-				}
-				else if (key.Equals("Content-Length", StringComparison.OrdinalIgnoreCase))
-				{
-					request.ContentLength = long.Parse(headers[key]);
-				}
-				else if (key.Equals("Content-Type", StringComparison.OrdinalIgnoreCase))
-				{
-					request.ContentType = headers[key];
-				}
-				else if (key.Equals("Date", StringComparison.OrdinalIgnoreCase))
-				{
-					request.Date = DateTime.Parse(headers[key]);
-				}
-				else if (key.Equals("Expect", StringComparison.OrdinalIgnoreCase))
-				{
-					request.Expect = headers[key];
-				}
-				else if (key.Equals("Host", StringComparison.OrdinalIgnoreCase))
-				{
-					request.Host = headers[key];
-				}
-				else if (key.Equals("If-Modified-Since", StringComparison.OrdinalIgnoreCase))
-				{
-					request.IfModifiedSince = DateTime.Parse(headers[key]);
-				}
-				else if (key.Equals("Referer", StringComparison.OrdinalIgnoreCase))
-				{
-					request.Referer = headers[key];
-				}
-				else if (key.Equals("Transfer-Encoding", StringComparison.OrdinalIgnoreCase))
-				{
-					request.TransferEncoding = headers[key];
-				}
-				else if (key.Equals("User-Agent", StringComparison.OrdinalIgnoreCase))
-				{
-					request.UserAgent = headers[key];
-				}
-				else
-				{
-					request.Headers.Add(key, headers[key]);
-				}
-			}
-		}
-
-		/// <summary>
 		/// 设置网络安全协议
 		/// </summary>
 		/// <param name="securityProtocolType">
@@ -117,16 +57,23 @@ namespace Swsk33.ReadAndWriteSharp.Network
 			HttpRequestMessage request = new HttpRequestMessage();
 			request.Method = method;
 			request.RequestUri = new Uri(url);
+			if (requestBody != null)
+			{
+				request.Content = new StreamContent(requestBody);
+			}
 			if (headers != null)
 			{
 				foreach (string key in headers.Keys)
 				{
-					request.Headers.TryAddWithoutValidation(key, headers[key]);
+					if (key.Equals("content-type", StringComparison.OrdinalIgnoreCase))
+					{
+						request.Content.Headers.ContentType = new MediaTypeHeaderValue(headers[key]);
+					}
+					else
+					{
+						request.Headers.TryAddWithoutValidation(key, headers[key]);
+					}
 				}
-			}
-			if (requestBody != null)
-			{
-				request.Content = new StreamContent(requestBody);
 			}
 			HttpClient client = new HttpClient();
 			HttpResponseMessage response = client.SendAsync(request).Result;
@@ -174,21 +121,15 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应内容</returns>
 		public static string SendPostRequest(string url, string contentType, string requestBody)
 		{
-			url = fixUrl(url);
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.Method = "POST";
-			request.ContentType = contentType;
-			byte[] data = Encoding.UTF8.GetBytes(requestBody);
-			using (Stream stream = request.GetRequestStream())
-			{
-				stream.Write(data, 0, data.Length);
-			}
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			Stream responseStream = response.GetResponseStream();
-			StreamReader streamReader = new StreamReader(responseStream, Encoding.GetEncoding("utf-8"));
-			string result = streamReader.ReadToEnd();
-			streamReader.Close();
-			responseStream.Close();
+			Dictionary<string, string> headers = new Dictionary<string, string>();
+			headers.Add("Content-Type", contentType);
+			Stream requestStream = new MemoryStream(Encoding.UTF8.GetBytes(requestBody));
+			Stream resultStream = SendCustomRequest(url, HttpMethod.Post, headers, requestStream);
+			StreamReader reader = new StreamReader(resultStream);
+			string result = reader.ReadToEnd();
+			reader.Close();
+			resultStream.Close();
+			requestStream.Close();
 			return result;
 		}
 
@@ -201,21 +142,13 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应内容</returns>
 		public static string SendPostRequest(string url, Dictionary<string, string> headers, string requestBody)
 		{
-			url = fixUrl(url);
-			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-			request.Method = "POST";
-			setHeaders(request, headers);
-			byte[] data = Encoding.UTF8.GetBytes(requestBody);
-			using (Stream stream = request.GetRequestStream())
-			{
-				stream.Write(data, 0, data.Length);
-			}
-			HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-			Stream responseStream = response.GetResponseStream();
-			StreamReader streamReader = new StreamReader(responseStream, Encoding.GetEncoding("utf-8"));
-			string result = streamReader.ReadToEnd();
-			streamReader.Close();
-			responseStream.Close();
+			Stream requestStream = new MemoryStream(Encoding.UTF8.GetBytes(requestBody));
+			Stream resultStream = SendCustomRequest(url, HttpMethod.Post, headers, requestStream);
+			StreamReader reader = new StreamReader(resultStream);
+			string result = reader.ReadToEnd();
+			reader.Close();
+			resultStream.Close();
+			requestStream.Close();
 			return result;
 		}
 
