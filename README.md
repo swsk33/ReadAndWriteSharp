@@ -29,6 +29,7 @@
 ### `Swsk33.ReadAndWriteSharp.FileUtil` - 文件实用工具
 
 #### `TextFileReader` - 文本文件读取器
+
 - `static int GetFileLine(string filePath)` - 读取文本文件的行数
 - `static string ReadSpecificLine(string filePath, int line)` - 读取文本文件指定行
 - `static string ReadSpecificLine(string filePath, int line, Encoding encoding)` - 使用特定的编码读取文本文档指定行
@@ -43,7 +44,9 @@
 - `static bool InsertText(string filePath, string content, int line, Encoding encoding)` - 使用指定字符编码，在指定行之后插入一行指定文本
 - `static bool RemoveSpecificLine(string filePath, int line)` - 移除文件指定行内容
 - `static bool ClearAll(string filePath)` - 将指定文件内容清空
+
 #### `BinaryUtils` - 二进制文件工具类
+
 - `static byte[] ReadBinaryFile(string filePath)` - 读取二进制文件为字节数组
 - `static bool WriteBinaryFile(string filePath, byte[] content)` - 将二进制数据写入指定文件，文件不存在将创建，存在将被覆盖
 - `static bool CopyFile(string origin, string destination)` - 复制文件，目标位置文件存在则会被覆盖
@@ -65,30 +68,23 @@
 ### `Swsk33.ReadAndWriteSharp.System` - 系统实用工具
 
 #### `TerminalUtils` - 终端实用类
+
 - `static string[] RunCommand(string command, string args)` - 调用命令行并获取执行结果，该方法为同步方法，会堵塞线程
 - `static string[] RunCommand(string command, string[] args)` - 调用命令行并获取执行结果，该方法为同步方法，会堵塞线程
-- `static void RunCommandAsynchronously(string command, string args, TerminalResult result)` - 异步执行命令行并将输出结果实时储存在一个TerminalResult类型的实例中
+- `static void RunCommandAsynchronously(string command, string args, TerminalResult result)` - 异步执行命令行并将输出结果实时储存在一个TerminalResult类型的实例中\
 - `static void RunCommandAsynchronously(string command, string[] args, TerminalResult result)` - 异步执行命令行并将输出结果实时储存在一个TerminalResult类型的实例中
 
 #### `RegUtils` - 注册表实用类
+
 - `static bool IsItemExists(RegistryKey mainKey, string itemName)` - 判断注册表项是否存在
-
 - `static bool IsValueExists(RegistryKey mainKey, string itemName, string valueName)` - 判断注册表某一项的某个值是否存在
-
 - `static bool OperateBootOption(string name, string exec, bool isAddOption)` - 添加/移除开机启动项
-
 - `static bool OperateFileRightMenu(string name, string exec, bool isAddOption)` - 添加/移除文件右键菜单
-
 - `static bool OperateFileRightMenu(string name, string iconPath, string exec, bool isAddOption)` - 添加/移除文件右键菜单，且在添加操作时指定其图标
-
 - `static bool OperateDirectoryRightMenu(string name, string exec, bool isAddOption)` - 添加/移除文件夹右键菜单
-
 - `static bool OperateDirectoryRightMenu(string name, string iconPath, string exec, bool isAddOption)` - 添加/移除文件夹右键菜单，且在添加操作时指定其图标
-
 - `static bool OperateDirectoryBackgroundMenu(string name, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单
-
 - `static bool OperateDirectoryBackgroundMenu(string name, string iconPath, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单，且在添加操作时指定其图标
-
 - `static bool OperateAppUninstallItem(AppUninstallInfo appInfo, bool isAddOption)` - 添加/删除应用程序卸载信息条目
 
 #### `Swsk33.ReadAndWriteSharp.System.Param` - 一些用于提供系统工具类方法参数的命名空间
@@ -106,23 +102,14 @@
 #### NetworkUtils - 网络实用类
 
 - `static void SetSecurityProtocol(SecurityProtocolType securityProtocolType)` - 设定安全协议
-
 - `static string SendGetRequest(string url)` - 发送GET请求
-
 - `static string SendGetRequest(string url, Dictionary<string, string> headers)` - 发送自定义请求头的GET请求
-
 - `static string SendPostRequest(string url, string contentType, string requestBody)` - 发送文本内容的POST请求
-
 - `static string SendPostRequest(string url, Dictionary<string, string> headers, string requestBody)` - 发送自定义请求头的文本内容的POST请求
-
 - `static bool DownloadFile(string url, string filePath)` - 下载文件
-
 - `static bool DownloadFile(string url, Dictionary<string, string> headers, string filePath)` - 以一个自定义的请求头下载文件
-
 - `static Stream SendCustomRequest(string url, HttpMethod method, Dictionary<string, string> headers, Stream requestBody)` - 发送完全自定义请求
-
 - `static string UploadFile(string url, Dictionary<string, string> textArea, Dictionary<string, string> fileArea)` - 上传文件
-
 - `static string UploadFile(string url, Dictionary<string, string> textArea, Dictionary<string, string> fileArea, Dictionary<string, string> headers)` - 以一个自定义的请求头上传文件
 
 #### `Swsk33.ReadAndWriteSharp.Network.Param` - 提供网络实用类参数的命名空间
