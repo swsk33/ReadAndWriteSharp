@@ -63,6 +63,7 @@
 #### `DirectoryUtils` - 文件夹实用类
 
 - `static string[] GetAllFilesInDirectory(string directoryPath)` 递归获取一个文件夹中全部文件
+- `static string[] GetAllFilesInDirectory(string directoryPath, string[] excludeFileName, string[] exculdeDirectoryName)` - 递归获取一个文件夹中全部文件，并指定要排除的文件名和文件夹名列表
 - `static bool CopyDirectory(string origin, string destination)` 复制一整个文件夹
 
 ### `Swsk33.ReadAndWriteSharp.System` - 系统实用工具
