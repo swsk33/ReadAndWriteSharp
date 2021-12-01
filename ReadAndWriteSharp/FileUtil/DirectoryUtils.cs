@@ -16,17 +16,17 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <param name="directoryPath">文件夹路径</param>
 		/// <param name="result">用于储存遍历结果的列表</param>
 		/// <param name="excludeFileName">要排除的文件名列表，只要是该列表中的文件名都不会在结果中，不需要排除传入null</param>
-		/// <param name="exculdeDirectoryName">要排除的目录名列表，只要是该列表中的文件夹名都不会在结果中，不需要排除传入null</param>
-		private static void getAllFilesInDirectory(string directoryPath, List<string> result, string[] excludeFileName, string[] exculdeDirectoryName)
+		/// <param name="excludeDirectoryName">要排除的目录名列表，只要是该列表中的文件夹名都不会在结果中，不需要排除传入null</param>
+		private static void getAllFilesInDirectory(string directoryPath, List<string> result, string[] excludeFileName, string[] excludeDirectoryName)
 		{
 			string[] directories = Directory.GetDirectories(directoryPath);
 			foreach (string directory in directories)
 			{
-				if (exculdeDirectoryName != null && Array.IndexOf(exculdeDirectoryName, FilePathUtils.GetFileName(directory)) != -1)
+				if (excludeDirectoryName != null && Array.IndexOf(excludeDirectoryName, FilePathUtils.GetFileName(directory)) != -1)
 				{
 					continue;
 				}
-				getAllFilesInDirectory(directory, result, excludeFileName, exculdeDirectoryName);
+				getAllFilesInDirectory(directory, result, excludeFileName, excludeDirectoryName);
 			}
 			string[] files = Directory.GetFiles(directoryPath);
 			foreach (string file in files)
@@ -56,12 +56,12 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// </summary>
 		/// <param name="directoryPath">文件夹路径</param>
 		/// <param name="excludeFileName">排除文件名列表，只要是该列表中的文件名都不会在结果中，不需要排除传入null</param>
-		/// <param name="exculdeDirectoryName">排除文件夹名列表，只要是该列表中的文件夹名都不会在结果中，不需要排除传入null</param>
+		/// <param name="excludeDirectoryName">排除文件夹名列表，只要是该列表中的文件夹名都不会在结果中，不需要排除传入null</param>
 		/// <returns>该文件夹及其所有子文件夹的全部文件路径</returns>
-		public static string[] GetAllFilesInDirectory(string directoryPath, string[] excludeFileName, string[] exculdeDirectoryName)
+		public static string[] GetAllFilesInDirectory(string directoryPath, string[] excludeFileName, string[] excludeDirectoryName)
 		{
 			List<string> result = new List<string>();
-			getAllFilesInDirectory(directoryPath, result, excludeFileName, exculdeDirectoryName);
+			getAllFilesInDirectory(directoryPath, result, excludeFileName, excludeDirectoryName);
 			return result.ToArray();
 		}
 
