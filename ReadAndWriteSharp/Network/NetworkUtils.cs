@@ -215,7 +215,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 				byte[] data = new byte[fileStream.Length];
 				fileStream.Read(data, 0, data.Length);
 				fileStream.Close();
-				formData.Add(new ByteArrayContent(data), key, TextUtils.GetFileNameFromPath(fileArea[key]));
+				formData.Add(new ByteArrayContent(data), key, FilePathUtils.GetFileName(fileArea[key]));
 			}
 			HttpClient client = new HttpClient();
 			HttpResponseMessage result = client.PostAsync(url, formData).Result;
@@ -250,7 +250,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 				byte[] data = new byte[fileStream.Length];
 				fileStream.Read(data, 0, data.Length);
 				fileStream.Close();
-				formData.Add(new ByteArrayContent(data), key, TextUtils.GetFileNameFromPath(fileArea[key]));
+				formData.Add(new ByteArrayContent(data), key, FilePathUtils.GetFileName(fileArea[key]));
 			}
 			requestMessage.RequestUri = new Uri(url);
 			requestMessage.Content = formData;

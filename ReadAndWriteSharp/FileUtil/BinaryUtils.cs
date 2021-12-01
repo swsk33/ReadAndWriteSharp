@@ -1,5 +1,4 @@
-﻿using Swsk33.ReadAndWriteSharp.Model.System.Param;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
@@ -36,17 +35,33 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>是否写入成功</returns>
 		public static bool WriteBinaryFile(string filePath, byte[] content)
 		{
-			bool success = false;
 			FileStream file = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
 			BinaryWriter writer = new BinaryWriter(file);
 			writer.Write(content);
 			writer.Close();
 			file.Close();
-			if (File.Exists(filePath))
+			return File.Exists(filePath);
+		}
+
+		/// <summary>
+		/// 复制文件，目标位置文件存在则会被覆盖
+		/// </summary>
+		/// <param name="origin">被复制的文件路径</param>
+		/// <param name="destination">复制到目标路径</param>
+		/// <returns>是否复制成功</returns>
+		public static bool CopyFile(string origin, string destination)
+		{
+			FileStream originFile = new FileStream(origin, FileMode.Open, FileAccess.Read, FileShare.Read);
+			FileStream destinationFile = new FileStream(destination, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+			byte[] buffer = new byte[2048];
+			int lengthEachRead;
+			while ((lengthEachRead = originFile.Read(buffer, 0, buffer.Length)) != 0)
 			{
-				success = true;
+				destinationFile.Write(buffer, 0, lengthEachRead);
 			}
-			return success;
+			destinationFile.Close();
+			originFile.Close();
+			return File.Exists(destination);
 		}
 
 		/// <summary>
@@ -83,66 +98,6 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 			memoryStream.Position = 0;
 			T result = (T)serializer.Deserialize(memoryStream);
 			return result;
-		}
-
-		/// <summary>
-		/// 获取文件夹信息并储存在一个DirInfo实例中
-		/// </summary>
-		/// <param name="dirPath">文件夹路径</param>
-		/// <param name="info">DirInfo实例</param>
-		public static void GetDirectoryInfo(string dirPath, DirInfo info)
-		{
-			string[] files = Directory.GetFiles(dirPath);
-			info.Size = 0;
-			if (files.Length != 0)
-			{
-				foreach (string file in files)
-				{
-					info.addFileToList(file);
-					info.addSize(new FileInfo(file).Length);
-				}
-			}
-			string[] dirs = Directory.GetDirectories(dirPath);
-			if (dirs.Length != 0)
-			{
-				foreach (string dir in dirs)
-				{
-					GetDirectoryInfo(dir, info);
-				}
-			}
-		}
-
-		/// <summary>
-		/// 复制文件夹
-		/// </summary>
-		/// <param name="origin">原文件夹</param>
-		/// <param name="dest">复制到的指定位置</param>
-		public static void CopyDir(string origin, string dest)
-		{
-			DirInfo info = new DirInfo();
-			GetDirectoryInfo(origin, info);
-			if (origin.EndsWith("\\"))
-			{
-				origin = origin.Substring(0, origin.Length - 1);
-			}
-			if (dest.EndsWith("\\"))
-			{
-				dest = dest.Substring(0, dest.Length - 1);
-			}
-			string destDirPath = dest + "\\" + origin.Substring(origin.LastIndexOf("\\") + 1);
-			foreach (string file in info.FileList)
-			{
-				string destFilePath = destDirPath + "\\" + file.Substring(origin.Length + 1);
-				if (File.Exists(file))
-				{
-					string parentDir = destFilePath.Substring(0, destFilePath.LastIndexOf("\\"));
-					if (!Directory.Exists(parentDir))
-					{
-						Directory.CreateDirectory(parentDir);
-						File.Copy(file, destFilePath);
-					}
-				}
-			}
 		}
 
 		/// <summary>
@@ -232,17 +187,31 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		}
 
 		/// <summary>
-		/// 获取文件扩展名，不带.
+		/// 检测一个文件是否是二进制文件，即判断是否是不可用文本方式打开的文件
 		/// </summary>
-		/// <param name="filePath">文件路径</param>
-		/// <returns>文件扩展名，无扩展名返回null</returns>
-		public static string GetFileFormat(string filePath)
+		/// <param name="origin">待判定文件路径</param>
+		/// <returns>是否是二进制文件，是返回true，如果是纯文本文件或者文件夹则返回false</returns>
+		public static bool IsBinaryFile(string origin)
 		{
-			if (!filePath.Contains("."))
+			if (Directory.Exists(origin))
 			{
-				return null;
+				return false;
 			}
-			return filePath.Substring(filePath.LastIndexOf(".") + 1);
+			FileStream fileStream = new FileStream(origin, FileMode.Open, FileAccess.Read, FileShare.Read);
+			StreamReader reader = new StreamReader(fileStream);
+			char[] buffer = new char[64];
+			while (reader.ReadBlock(buffer, 0, buffer.Length) != 0)
+			{
+				foreach (char eachChar in buffer)
+				{
+					// 这是Git中判断文件的方法：如果以字符形式读取文件内容其中包含字符\0，则一定不是文本文件
+					if (eachChar == '\0')
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		/// <summary>
@@ -252,14 +221,14 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>MD5值</returns>
 		public static string GetFileMD5(string filePath)
 		{
-			FileStream file = new FileStream(filePath, FileMode.Open);
+			FileStream fileStream = new FileStream(filePath, FileMode.Open);
 			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] retVal = md5.ComputeHash(file);
-			file.Close();
+			byte[] bytes = md5.ComputeHash(fileStream);
+			fileStream.Close();
 			StringBuilder result = new StringBuilder();
-			for (int i = 0; i < retVal.Length; i++)
+			for (int i = 0; i < bytes.Length; i++)
 			{
-				result.Append(retVal[i].ToString("x2"));
+				result.Append(bytes[i].ToString("x2"));
 			}
 			return result.ToString();
 		}
@@ -271,14 +240,14 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>SHA1值</returns>
 		public static string GetFileSHA1(string filePath)
 		{
-			FileStream file = new FileStream(filePath, FileMode.Open);
+			FileStream fileStream = new FileStream(filePath, FileMode.Open);
 			SHA1 sha1 = new SHA1CryptoServiceProvider();
-			byte[] retval = sha1.ComputeHash(file);
-			file.Close();
+			byte[] bytes = sha1.ComputeHash(fileStream);
+			fileStream.Close();
 			StringBuilder result = new StringBuilder();
-			for (int i = 0; i < retval.Length; i++)
+			for (int i = 0; i < bytes.Length; i++)
 			{
-				result.Append(retval[i].ToString("x2"));
+				result.Append(bytes[i].ToString("x2"));
 			}
 			return result.ToString();
 		}

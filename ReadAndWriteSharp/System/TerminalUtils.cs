@@ -81,7 +81,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 				}
 				else
 				{
-					totalArgs = totalArgs + TextUtils.SurroundByDoubleQuotes(trimArg);
+					totalArgs = totalArgs + StringUtils.SurroundByDoubleQuotes(trimArg);
 				}
 				totalArgs = totalArgs + " ";
 			}
@@ -190,7 +190,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 					}
 					else
 					{
-						totalArgs = totalArgs + TextUtils.SurroundByDoubleQuotes(trimArg);
+						totalArgs = totalArgs + StringUtils.SurroundByDoubleQuotes(trimArg);
 					}
 					totalArgs = totalArgs + " ";
 				}
