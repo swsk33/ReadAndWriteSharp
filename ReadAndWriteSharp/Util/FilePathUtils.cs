@@ -12,9 +12,9 @@
 		/// <returns>移除末尾斜杠后的路径字符串</returns>
 		public static string RemovePathEndSlash(string origin)
 		{
-			if (origin.EndsWith("/"))
+			while (origin.EndsWith("/"))
 			{
-				origin = origin.Substring(0, origin.LastIndexOf("/"));
+				origin = origin.Substring(0, origin.Length - 1);
 			}
 			return origin;
 		}
@@ -26,9 +26,9 @@
 		/// <returns>移除末尾反斜杠后的路径字符串</returns>
 		public static string RemovePathEndBackslash(string origin)
 		{
-			if (origin.EndsWith("\\"))
+			while (origin.EndsWith("\\"))
 			{
-				origin = origin.Substring(0, origin.LastIndexOf("\\"));
+				origin = origin.Substring(0, origin.Length - 1);
 			}
 			return origin;
 		}
