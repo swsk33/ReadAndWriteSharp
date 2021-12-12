@@ -6,7 +6,7 @@
 是使用C#对[ReadAndWriteJ](https://gitee.com/swsk33/ReadAndWriteJ)的实现。
 
 ## 使用方法
-下载发行版中dll文件，在vs2019中项目-引用里面添加即可。
+下载发行版中dll文件，在vs2019/vs2022中项目-引用里面添加即可。
 
 或者在nuget包管理中搜索`ReadAndWriteSharp`下载。
 
@@ -97,8 +97,6 @@
 
 ##### `AppUninstallInfo` - 软件卸载信息类
 
-##### `DirInfo` - 文件夹信息类
-
 #### `Swsk33.ReadAndWriteSharp.System.Result` - 一些用于提供系统工具类结果参数的命名空间
 
 ##### `TerminalResult` - 终端实用类的输出结果
@@ -126,6 +124,6 @@
 
 ------
 
-**在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包**
+**在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包。**
 
 >最后更新 - 2021.12.12
