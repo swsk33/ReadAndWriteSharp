@@ -65,6 +65,11 @@
 - `static string[] GetAllFilesInDirectory(string directoryPath)` 递归获取一个文件夹中全部文件
 - `static string[] GetAllFilesInDirectory(string directoryPath, string[] excludeFileName, string[] exculdeDirectoryName)` - 递归获取一个文件夹中全部文件，并指定要排除的文件名和文件夹名列表
 - `static bool CopyDirectory(string origin, string destination)` 复制一整个文件夹
+- `static void CopyDirectoryAsync(string origin, string destination, CopyDirectoryStatus status)` 异步复制一整个文件夹
+
+#### `Swsk33.ReadAndWriteSharp.FileUtil.Param` - 一些用于提供文件复制的参数类
+
+##### `CopyDirectoryStatus` - 文件夹异步复制的状态类，用于作为参数传入异步复制文件夹方法之后，可以获取当时正在复制的文件以及是否复制完成
 
 ### `Swsk33.ReadAndWriteSharp.System` - 系统实用工具
 
@@ -123,4 +128,4 @@
 
 **在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包**
 
->最后更新 - 2021.12.4
+>最后更新 - 2021.12.12

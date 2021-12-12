@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Swsk33.ReadAndWriteSharp</RootNamespace>
     <AssemblyName>ReadAndWriteSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="FileUtil\BinaryUtils.cs" />
     <Compile Include="FileUtil\DirectoryUtils.cs" />
+    <Compile Include="FileUtil\Param\CopyDirectoryStatus.cs" />
     <Compile Include="System\Param\AppUninstallInfo.cs" />
     <Compile Include="System\Result\TerminalResult.cs" />
     <Compile Include="Network\NetworkUtils.cs" />

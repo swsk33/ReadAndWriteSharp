@@ -41,168 +41,58 @@
 		/// <param name="uninstallString">设定卸载命令</param>
 		public AppUninstallInfo(string displayName, string uninstallString)
 		{
-			this.displayName = displayName;
-			this.uninstallString = uninstallString;
+			this.DisplayName = displayName;
+			this.UninstallString = uninstallString;
 		}
 
 		/// <summary>
 		/// 显示名称
 		/// </summary>
-		public string DisplayName
-		{
-			get
-			{
-				return displayName;
-			}
-
-			set
-			{
-				displayName = value;
-			}
-		}
+		public string DisplayName { get => displayName; set => displayName = value; }
 
 		/// <summary>
-		/// 显示图标
+		/// 显示图标路径
 		/// </summary>
-		public string DisplayIcon
-		{
-			get
-			{
-				return displayIcon;
-			}
-
-			set
-			{
-				displayIcon = value;
-			}
-		}
+		public string DisplayIcon { get => displayIcon; set => displayIcon = value; }
 
 		/// <summary>
-		/// 显示版本
+		/// 显示版本号
 		/// </summary>
-		public string DisplayVersion
-		{
-			get
-			{
-				return displayVersion;
-			}
-
-			set
-			{
-				displayVersion = value;
-			}
-		}
+		public string DisplayVersion { get => displayVersion; set => displayVersion = value; }
 
 		/// <summary>
 		/// 发布者
 		/// </summary>
-		public string Publisher
-		{
-			get
-			{
-				return publisher;
-			}
-
-			set
-			{
-				publisher = value;
-			}
-		}
+		public string Publisher { get => publisher; set => publisher = value; }
 
 		/// <summary>
 		/// 软件大小（单位kb）
 		/// </summary>
-		public long EstimatedSize
-		{
-			get
-			{
-				return estimatedSize;
-			}
-
-			set
-			{
-				estimatedSize = value;
-			}
-		}
+		public long EstimatedSize { get => estimatedSize; set => estimatedSize = value; }
 
 		/// <summary>
-		/// 软件安装位置
+		/// 安装目录
 		/// </summary>
-		public string InstallPath
-		{
-			get
-			{
-				return installPath;
-			}
-
-			set
-			{
-				installPath = value;
-			}
-		}
+		public string InstallPath { get => installPath; set => installPath = value; }
 
 		/// <summary>
-		/// 卸载命令
+		/// 卸载程序路径或者命令
 		/// </summary>
-		public string UninstallString
-		{
-			get
-			{
-				return uninstallString;
-			}
-
-			set
-			{
-				uninstallString = value;
-			}
-		}
+		public string UninstallString { get => uninstallString; set => uninstallString = value; }
 
 		/// <summary>
-		/// 修改命令
+		/// 修改程序路径或者命令
 		/// </summary>
-		public string ModifyPath
-		{
-			get
-			{
-				return modifyPath;
-			}
-
-			set
-			{
-				modifyPath = value;
-			}
-		}
+		public string ModifyPath { get => modifyPath; set => modifyPath = value; }
 
 		/// <summary>
 		/// 是否禁用修改
 		/// </summary>
-		public bool NoModify
-		{
-			get
-			{
-				return noModify;
-			}
-
-			set
-			{
-				noModify = value;
-			}
-		}
+		public bool NoModify { get => noModify; set => noModify = value; }
 
 		/// <summary>
 		/// 是否禁用修复
 		/// </summary>
-		public bool NoRepair
-		{
-			get
-			{
-				return noRepair;
-			}
-
-			set
-			{
-				noRepair = value;
-			}
-		}
+		public bool NoRepair { get => noRepair; set => noRepair = value; }
 	}
 }
