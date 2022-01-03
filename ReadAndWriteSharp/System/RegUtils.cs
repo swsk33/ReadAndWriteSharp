@@ -325,5 +325,40 @@ namespace Swsk33.ReadAndWriteSharp.System
 			}
 			return !isAddOption ^ IsItemExists(Registry.LocalMachine, optionName);
 		}
+
+		/// <summary>
+		/// 获取系统环境变量
+		/// </summary>
+		/// <param name="name">环境变量名</param>
+		/// <returns>该环境变量的值，若指定环境变量名不存在则返回null</returns>
+		public static string GetEnvironmentVariable(string name)
+		{
+			string optionName = "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment";
+			if (!IsValueExists(Registry.LocalMachine, optionName, name))
+			{
+				return null;
+			}
+			RegistryKey key = Registry.LocalMachine.OpenSubKey(optionName);
+			string value = key.GetValue(name, "", RegistryValueOptions.DoNotExpandEnvironmentNames).ToString();
+			key.Close();
+			return value;
+		}
+
+		/// <summary>
+		/// 获取系统Path变量值
+		/// </summary>
+		/// <returns>Path变量值，为数组形式</returns>
+		public static string[] GetPathVariable()
+		{
+			RegistryKey key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment");
+			string value = key.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames).ToString();
+			if (value.EndsWith(";"))
+			{
+				value = value.Substring(0, value.LastIndexOf(";"));
+			}
+			string[] values = value.Split(';');
+			key.Close();
+			return values;
+		}
 	}
 }

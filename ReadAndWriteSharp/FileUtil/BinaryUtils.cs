@@ -222,13 +222,13 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		public static string GetFileMD5(string filePath)
 		{
 			FileStream fileStream = new FileStream(filePath, FileMode.Open);
-			MD5 md5 = new MD5CryptoServiceProvider();
-			byte[] bytes = md5.ComputeHash(fileStream);
+			MD5 md5 = MD5.Create();
+			byte[] originBytes = md5.ComputeHash(fileStream);
 			fileStream.Close();
 			StringBuilder result = new StringBuilder();
-			for (int i = 0; i < bytes.Length; i++)
+			foreach (byte eachByte in originBytes)
 			{
-				result.Append(bytes[i].ToString("x2"));
+				result.Append(eachByte.ToString("x2"));
 			}
 			return result.ToString();
 		}
@@ -241,13 +241,13 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		public static string GetFileSHA1(string filePath)
 		{
 			FileStream fileStream = new FileStream(filePath, FileMode.Open);
-			SHA1 sha1 = new SHA1CryptoServiceProvider();
-			byte[] bytes = sha1.ComputeHash(fileStream);
+			SHA1 sha1 = SHA1.Create();
+			byte[] originBytes = sha1.ComputeHash(fileStream);
 			fileStream.Close();
 			StringBuilder result = new StringBuilder();
-			for (int i = 0; i < bytes.Length; i++)
+			foreach (byte eachByte in originBytes)
 			{
-				result.Append(bytes[i].ToString("x2"));
+				result.Append(eachByte.ToString("x2"));
 			}
 			return result.ToString();
 		}

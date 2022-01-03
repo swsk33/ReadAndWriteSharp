@@ -18,6 +18,8 @@
 - `static string SurroundBySingleQuotes(string origin)` - 使用单引号包围字符串
 - `static string SurroundByDoubleQuotes(string origin)` - 使用双引号包围字符串
 - `static bool IsEmpty(string originString)` - 判断字符串是否为空
+- `static string GetStringMD5(string origin)` - 计算字符串MD5值
+- `static string GetStringSHA1(string origin)` - 计算字符串SHA1值
 
 #### `FilePathUtils` - 文件路径字符串实用类
 
@@ -67,6 +69,11 @@
 - `static bool CopyDirectory(string origin, string destination)` 复制一整个文件夹
 - `static void CopyDirectoryAsync(string origin, string destination, CopyDirectoryStatus status)` 异步复制一整个文件夹
 
+#### `PropertiesOperator` - properties文件读写类
+
+- `static Dictionary<string, string> ReadPropertiesFile(string filePath)` - 读取一个properties文件，将里面的键值读取储存为一个字典返回
+- `static void WritePropertiesFile(Dictionary<string, string> keyValues, string filePath)` - 把一个字典对象写入为一个properties文件，文件不存在将创建，存在则直接覆盖
+
 #### `Swsk33.ReadAndWriteSharp.FileUtil.Param` - 一些用于提供文件复制的参数类
 
 ##### `CopyDirectoryStatus` - 文件夹异步复制的状态类，用于作为参数传入异步复制文件夹方法之后，可以获取当时正在复制的文件以及是否复制完成
@@ -92,6 +99,8 @@
 - `static bool OperateDirectoryBackgroundMenu(string name, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单
 - `static bool OperateDirectoryBackgroundMenu(string name, string iconPath, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单，且在添加操作时指定其图标
 - `static bool OperateAppUninstallItem(AppUninstallInfo appInfo, bool isAddOption)` - 添加/删除应用程序卸载信息条目
+- `static string GetEnvironmentVariable(string name)` - 获取系统环境变量
+- `static string[] GetPathVariable()` - 获取系统Path变量值
 
 #### `Swsk33.ReadAndWriteSharp.System.Param` - 一些用于提供系统工具类方法参数的命名空间
 
@@ -126,4 +135,4 @@
 
 **在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包。**
 
->最后更新 - 2021.12.12
+>最后更新 - 2022.1.3

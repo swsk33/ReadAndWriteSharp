@@ -49,6 +49,7 @@
     <Compile Include="FileUtil\BinaryUtils.cs" />
     <Compile Include="FileUtil\DirectoryUtils.cs" />
     <Compile Include="FileUtil\Param\CopyDirectoryStatus.cs" />
+    <Compile Include="FileUtil\PropertiesOperator.cs" />
     <Compile Include="System\Param\AppUninstallInfo.cs" />
     <Compile Include="System\Result\TerminalResult.cs" />
     <Compile Include="Network\NetworkUtils.cs" />
