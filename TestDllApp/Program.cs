@@ -1,4 +1,5 @@
-﻿using Swsk33.ReadAndWriteSharp.FileUtil;
+﻿using Microsoft.Win32;
+using Swsk33.ReadAndWriteSharp.FileUtil;
 using Swsk33.ReadAndWriteSharp.FileUtil.Param;
 using Swsk33.ReadAndWriteSharp.Network;
 using Swsk33.ReadAndWriteSharp.System;

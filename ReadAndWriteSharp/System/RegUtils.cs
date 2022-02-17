@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using Swsk33.ReadAndWriteSharp.System.Param;
+using Swsk33.ReadAndWriteSharp.Util;
 using System;
 
 namespace Swsk33.ReadAndWriteSharp.System
@@ -21,10 +22,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 			{
 				itemName = itemName.Substring(1, itemName.Length - 1);
 			}
-			if (itemName.EndsWith("\\"))
-			{
-				itemName = itemName.Substring(0, itemName.Length - 1);
-			}
+			itemName = FilePathUtils.RemovePathEndBackslash(itemName);
 			string[] items = itemName.Split('\\');
 			string[] subKeys;
 			bool subKeyExists;
@@ -34,7 +32,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 				subKeys = mainKey.GetSubKeyNames();
 				foreach (string subKey in subKeys)
 				{
-					if (subKey.Equals(item))
+					if (subKey.Equals(item, StringComparison.CurrentCultureIgnoreCase))
 					{
 						mainKey = mainKey.OpenSubKey(item);
 						subKeyExists = true;
@@ -55,7 +53,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 		/// 判断注册表某一项的某个值是否存在
 		/// </summary>
 		/// <param name="mainKey">主键，例如HKEY_LOCAL_MACHINE表示为Registry.LocalMachine</param>
-		/// <param name="itemName">完整项名</param>
+		/// <param name="itemName">完整项名，例如HKEY_LOCAL_MACHINE\SOFTWARE\Clients的完整项名是：SOFTWARE\Clients</param>
 		/// <param name="valueName">值的名称</param>
 		/// <returns>值是否存在</returns>
 		public static bool IsValueExists(RegistryKey mainKey, string itemName, string valueName)
@@ -68,7 +66,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 			string[] valueNames = mainKey.OpenSubKey(itemName).GetValueNames();
 			foreach (string name in valueNames)
 			{
-				if (name.Equals(valueName))
+				if (name.Equals(valueName, StringComparison.CurrentCultureIgnoreCase))
 				{
 					result = true;
 					break;
