@@ -46,22 +46,22 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileUtil\BinaryUtils.cs" />
-    <Compile Include="FileUtil\DirectoryUtils.cs" />
-    <Compile Include="FileUtil\Param\CopyDirectoryStatus.cs" />
-    <Compile Include="FileUtil\PropertiesOperator.cs" />
-    <Compile Include="System\Param\AppUninstallInfo.cs" />
-    <Compile Include="System\Result\TerminalResult.cs" />
-    <Compile Include="Network\NetworkUtils.cs" />
-    <Compile Include="Network\Param\ContentTypeValue.cs" />
-    <Compile Include="Network\Param\UserAgentValue.cs" />
-    <Compile Include="System\RegUtils.cs" />
-    <Compile Include="System\TerminalUtils.cs" />
-    <Compile Include="FileUtil\TextFileReader.cs" />
+    <Compile Include="src\FileUtil\BinaryUtils.cs" />
+    <Compile Include="src\FileUtil\DirectoryUtils.cs" />
+    <Compile Include="src\FileUtil\Param\CopyDirectoryStatus.cs" />
+    <Compile Include="src\FileUtil\PropertiesOperator.cs" />
+    <Compile Include="src\System\Param\AppUninstallInfo.cs" />
+    <Compile Include="src\System\Result\TerminalResult.cs" />
+    <Compile Include="src\Network\NetworkUtils.cs" />
+    <Compile Include="src\Network\Param\ContentTypeValue.cs" />
+    <Compile Include="src\Network\Param\UserAgentValue.cs" />
+    <Compile Include="src\System\RegUtils.cs" />
+    <Compile Include="src\System\TerminalUtils.cs" />
+    <Compile Include="src\FileUtil\TextFileReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FileUtil\TextFileWriter.cs" />
-    <Compile Include="Util\FilePathUtils.cs" />
-    <Compile Include="Util\StringUtils.cs" />
+    <Compile Include="src\FileUtil\TextFileWriter.cs" />
+    <Compile Include="src\Util\FilePathUtils.cs" />
+    <Compile Include="src\Util\StringUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />

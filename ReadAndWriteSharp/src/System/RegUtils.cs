@@ -345,14 +345,24 @@ namespace Swsk33.ReadAndWriteSharp.System
 		/// <summary>
 		/// 获取系统Path变量值
 		/// </summary>
+		/// <param name="expandVariables">是否展开Path中的变量形式，例如把%JAVA_HOME%转为它对应的实际的路径值</param>
 		/// <returns>Path变量值，为数组形式</returns>
-		public static string[] GetPathVariable()
+		public static string[] GetPathVariable(bool expandVariables)
 		{
 			RegistryKey key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment");
-			string value = key.GetValue("Path", "", RegistryValueOptions.DoNotExpandEnvironmentNames).ToString();
-			if (value.EndsWith(";"))
+			RegistryValueOptions option;
+			if (expandVariables)
 			{
-				value = value.Substring(0, value.LastIndexOf(";"));
+				option = RegistryValueOptions.None;
+			}
+			else
+			{
+				option = RegistryValueOptions.DoNotExpandEnvironmentNames;
+			}
+			string value = key.GetValue("Path", "", option).ToString();
+			while (value.EndsWith(";"))
+			{
+				value = value.Substring(0, value.Length - 1);
 			}
 			string[] values = value.Split(';');
 			key.Close();

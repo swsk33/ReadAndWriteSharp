@@ -100,7 +100,7 @@
 - `static bool OperateDirectoryBackgroundMenu(string name, string iconPath, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单，且在添加操作时指定其图标
 - `static bool OperateAppUninstallItem(AppUninstallInfo appInfo, bool isAddOption)` - 添加/删除应用程序卸载信息条目
 - `static string GetEnvironmentVariable(string name)` - 获取系统环境变量
-- `static string[] GetPathVariable()` - 获取系统Path变量值
+- `static string[] GetPathVariable(bool expandVariables)` - 获取系统Path变量值
 
 #### `Swsk33.ReadAndWriteSharp.System.Param` - 一些用于提供系统工具类方法参数的命名空间
 
@@ -135,4 +135,4 @@
 
 **在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包。**
 
->最后更新 - 2022.2.17
+>最后更新 - 2022.2.18
