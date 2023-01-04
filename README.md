@@ -1,9 +1,7 @@
 # ReadAndWriteSharp
 
 ## 介绍
-使用C#，基于 .NET Framework 的文件读写类库。
-
-是使用C#对[ReadAndWriteJ](https://gitee.com/swsk33/ReadAndWriteJ)的实现。
+使用C#，基于 .NET Framework 的文件读写与实用类库。
 
 ## 使用方法
 下载发行版中dll文件，在vs2019/vs2022中项目-引用里面添加即可。
@@ -99,8 +97,9 @@
 - `static bool OperateDirectoryBackgroundMenu(string name, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单
 - `static bool OperateDirectoryBackgroundMenu(string name, string iconPath, string exec, bool isAddOption)` - 添加/移除文件夹背景/桌面右键菜单，且在添加操作时指定其图标
 - `static bool OperateAppUninstallItem(AppUninstallInfo appInfo, bool isAddOption)` - 添加/删除应用程序卸载信息条目
-- `static string GetEnvironmentVariable(string name)` - 获取系统环境变量
-- `static string[] GetPathVariable(bool expandVariables)` - 获取系统Path变量值
+- `static string GetEnvironmentVariable(string name)` - 获取系统环境变量但不展开变量引用
+- `static string GetEnvironmentVariable(string name, bool expandVariables)` - 获取环境变量，指定是否展开变量引用
+- `static string[] GetPathVariable(bool expandVariables)` - 获取系统`Path`变量值
 
 #### `Swsk33.ReadAndWriteSharp.System.Param` - 一些用于提供系统工具类方法参数的命名空间
 
@@ -115,13 +114,13 @@
 #### NetworkUtils - 网络实用类
 
 - `static void SetSecurityProtocol(SecurityProtocolType securityProtocolType)` - 设定安全协议
-- `static string SendGetRequest(string url)` - 发送GET请求
-- `static string SendGetRequest(string url, Dictionary<string, string> headers)` - 发送自定义请求头的GET请求
-- `static string SendPostRequest(string url, string contentType, string requestBody)` - 发送文本内容的POST请求
-- `static string SendPostRequest(string url, Dictionary<string, string> headers, string requestBody)` - 发送自定义请求头的文本内容的POST请求
+- `static HttpResponseMessage SendCustomRequest(string url, HttpMethod method, Dictionary<string, string> headers, HttpContent requestBody)` - 发送完全自定义请求
+- `static string SendGetRequest(string url)` - 发送`GET`请求
+- `static string SendGetRequest(string url, Dictionary<string, string> headers)` - 发送自定义请求头的`GET`请求
+- `static string SendPostRequest(string url, string contentType, string requestBody)` - 发送文本内容的`POST`请求
+- `static string SendPostRequest(string url, Dictionary<string, string> headers, string requestBody)` - 发送自定义请求头的文本内容的`POST`请求
 - `static bool DownloadFile(string url, string filePath)` - 下载文件
 - `static bool DownloadFile(string url, Dictionary<string, string> headers, string filePath)` - 以一个自定义的请求头下载文件
-- `static Stream SendCustomRequest(string url, HttpMethod method, Dictionary<string, string> headers, Stream requestBody)` - 发送完全自定义请求
 - `static string UploadFile(string url, Dictionary<string, string> textArea, Dictionary<string, string> fileArea)` - 上传文件
 - `static string UploadFile(string url, Dictionary<string, string> textArea, Dictionary<string, string> fileArea, Dictionary<string, string> headers)` - 以一个自定义的请求头上传文件
 
@@ -135,4 +134,4 @@
 
 **在vs中使用这些类即可显示其中详细的的方法与说明，前提是引用类库时必须将下载的dll和xml文件放一起，或者直接使用nuget包。**
 
->最后更新 - 2022.2.18
+>最后更新 - 2023.1.4

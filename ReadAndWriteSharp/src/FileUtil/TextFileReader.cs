@@ -33,14 +33,7 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>读取结果</returns>
 		public static string ReadSpecificLine(string filePath, int line)
 		{
-			string result = "";
-			StreamReader reader = new StreamReader(filePath);
-			for (int i = 0; i < line; i++)
-			{
-				result = reader.ReadLine();
-			}
-			reader.Close();
-			return result;
+			return ReadSpecificLine(filePath, line, Encoding.Default);
 		}
 
 		/// <summary>
@@ -71,19 +64,7 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>读取结果</returns>
 		public static string ReadSpecificRange(string filePath, int start, int end)
 		{
-			string result = "";
-			StreamReader reader = new StreamReader(filePath);
-			int currentLine;
-			for (currentLine = 0; currentLine < start; currentLine++)
-			{
-				result = reader.ReadLine();
-			}
-			for (int i = currentLine; i < end; i++)
-			{
-				result = result + "\r\n" + reader.ReadLine();
-			}
-			reader.Close();
-			return result;
+			return ReadSpecificRange(filePath, start, end, Encoding.Default);
 		}
 
 		/// <summary>

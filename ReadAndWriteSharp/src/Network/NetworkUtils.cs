@@ -5,7 +5,6 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 
 namespace Swsk33.ReadAndWriteSharp.Network
 {
@@ -14,6 +13,11 @@ namespace Swsk33.ReadAndWriteSharp.Network
 	/// </summary>
 	public class NetworkUtils
 	{
+		/// <summary>
+		/// 网络客户端
+		/// </summary>
+		private static readonly HttpClient CLIENT = new HttpClient();
+
 		/// <summary>
 		/// 修补url，当url没有以http或者https开头，就会补上协议头，否则不执行任何操作
 		/// </summary>
@@ -49,9 +53,21 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <param name="url">请求地址</param>
 		/// <param name="method">请求类型，例如GET请求就传入HttpMethod.Get</param>
 		/// <param name="headers">存放自定义的请求头的键值对，其中可以设定Content-Type、User-Agent值等等，不设定自定义请求头可以传入null</param>
-		/// <param name="requestBody">请求体，自行定义请求体数据，然后写入Stream传入进来作为请求体发送，没有请求体（例如GET请求）传入null</param>
-		/// <returns>响应内容的流数据</returns>
-		public static Stream SendCustomRequest(string url, HttpMethod method, Dictionary<string, string> headers, Stream requestBody)
+		/// <param name="requestBody">
+		/// 请求体，自行定义HttpContent类型请求体数据，可以通过其它类型转换为HttpContent类再传入，没有请求体（例如GET请求）传入null
+		/// <para>不同类型转换为HttpContent类型方式如下：</para>
+		/// <para>字符串：new StringContent(str)</para>
+		/// <para>流：new StreamContent(stream)</para>
+		/// <para>字节数组：new ByteArrayContent(byte)</para>
+		/// </param>
+		/// <returns>
+		/// 响应内容，HttpResponseMessage类型，获取其Content属性可以转换为对应类型的内容
+		/// <para>假设返回值赋值给result变量，则转换方式如下：</para>
+		/// <para>转为字符串：result.Content.ReadAsStringAsync().Result</para>
+		/// <para>转为流：result.Content.ReadAsStreamAsync().Result</para>
+		/// <para>转为字节数组：result.Content.ReadAsByteArrayAsync().Result</para>
+		/// </returns>
+		public static HttpResponseMessage SendCustomRequest(string url, HttpMethod method, Dictionary<string, string> headers, HttpContent requestBody)
 		{
 			url = fixUrl(url);
 			HttpRequestMessage request = new HttpRequestMessage();
@@ -59,7 +75,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 			request.RequestUri = new Uri(url);
 			if (requestBody != null)
 			{
-				request.Content = new StreamContent(requestBody);
+				request.Content = requestBody;
 			}
 			if (headers != null)
 			{
@@ -71,14 +87,11 @@ namespace Swsk33.ReadAndWriteSharp.Network
 					}
 					else
 					{
-						request.Headers.TryAddWithoutValidation(key, headers[key]);
+						request.Headers.Add(key, headers[key]);
 					}
 				}
 			}
-			HttpClient client = new HttpClient();
-			HttpResponseMessage response = client.SendAsync(request).Result;
-			Stream result = response.Content.ReadAsStreamAsync().Result;
-			return result;
+			return CLIENT.SendAsync(request).Result;
 		}
 
 		/// <summary>
@@ -88,12 +101,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应内容</returns>
 		public static string SendGetRequest(string url)
 		{
-			Stream streamResult = SendCustomRequest(url, HttpMethod.Get, null, null);
-			StreamReader reader = new StreamReader(streamResult);
-			string result = reader.ReadToEnd();
-			reader.Close();
-			streamResult.Close();
-			return result;
+			return SendGetRequest(url, null);
 		}
 
 		/// <summary>
@@ -104,12 +112,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应内容</returns>
 		public static string SendGetRequest(string url, Dictionary<string, string> headers)
 		{
-			Stream streamResult = SendCustomRequest(url, HttpMethod.Get, headers, null);
-			StreamReader reader = new StreamReader(streamResult);
-			string result = reader.ReadToEnd();
-			reader.Close();
-			streamResult.Close();
-			return result;
+			return SendCustomRequest(url, HttpMethod.Get, headers, null).Content.ReadAsStringAsync().Result;
 		}
 
 		/// <summary>
@@ -121,16 +124,11 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应内容</returns>
 		public static string SendPostRequest(string url, string contentType, string requestBody)
 		{
-			Dictionary<string, string> headers = new Dictionary<string, string>();
-			headers.Add("Content-Type", contentType);
-			Stream requestStream = new MemoryStream(Encoding.UTF8.GetBytes(requestBody));
-			Stream resultStream = SendCustomRequest(url, HttpMethod.Post, headers, requestStream);
-			StreamReader reader = new StreamReader(resultStream);
-			string result = reader.ReadToEnd();
-			reader.Close();
-			resultStream.Close();
-			requestStream.Close();
-			return result;
+			Dictionary<string, string> headers = new Dictionary<string, string>
+			{
+				{ "Content-Type", contentType }
+			};
+			return SendPostRequest(url, headers, requestBody);
 		}
 
 		/// <summary>
@@ -142,14 +140,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应内容</returns>
 		public static string SendPostRequest(string url, Dictionary<string, string> headers, string requestBody)
 		{
-			Stream requestStream = new MemoryStream(Encoding.UTF8.GetBytes(requestBody));
-			Stream resultStream = SendCustomRequest(url, HttpMethod.Post, headers, requestStream);
-			StreamReader reader = new StreamReader(resultStream);
-			string result = reader.ReadToEnd();
-			reader.Close();
-			resultStream.Close();
-			requestStream.Close();
-			return result;
+			return SendCustomRequest(url, HttpMethod.Post, headers, new StringContent(requestBody)).Content.ReadAsStringAsync().Result;
 		}
 
 		/// <summary>
@@ -160,17 +151,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>是否下载成功</returns>
 		public static bool DownloadFile(string url, string filePath)
 		{
-			Stream streamResult = SendCustomRequest(url, HttpMethod.Get, null, null);
-			Stream fileStream = new FileStream(filePath, FileMode.Create);
-			byte[] fileBuffer = new byte[1024];
-			int sizeEachRead;
-			while ((sizeEachRead = streamResult.Read(fileBuffer, 0, fileBuffer.Length)) != 0)
-			{
-				fileStream.Write(fileBuffer, 0, sizeEachRead);
-			}
-			fileStream.Close();
-			streamResult.Close();
-			return File.Exists(filePath);
+			return DownloadFile(url, filePath, null);
 		}
 
 		/// <summary>
@@ -182,7 +163,7 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>是否下载成功</returns>
 		public static bool DownloadFile(string url, string filePath, Dictionary<string, string> headers)
 		{
-			Stream streamResult = SendCustomRequest(url, HttpMethod.Get, headers, null);
+			Stream streamResult = SendCustomRequest(url, HttpMethod.Get, headers, null).Content.ReadAsStreamAsync().Result;
 			Stream fileStream = new FileStream(filePath, FileMode.Create);
 			byte[] fileBuffer = new byte[1024];
 			int sizeEachRead;
@@ -204,60 +185,46 @@ namespace Swsk33.ReadAndWriteSharp.Network
 		/// <returns>响应结果</returns>
 		public static string UploadFile(string url, Dictionary<string, string> textArea, Dictionary<string, string> fileArea)
 		{
-			var formData = new MultipartFormDataContent();
-			foreach (string key in textArea.Keys)
-			{
-				formData.Add(new StringContent(textArea[key]), key);
-			}
-			foreach (string key in fileArea.Keys)
-			{
-				Stream fileStream = new FileStream(fileArea[key], FileMode.Open, FileAccess.Read);
-				byte[] data = new byte[fileStream.Length];
-				fileStream.Read(data, 0, data.Length);
-				fileStream.Close();
-				formData.Add(new ByteArrayContent(data), key, FilePathUtils.GetFileName(fileArea[key]));
-			}
-			HttpClient client = new HttpClient();
-			HttpResponseMessage result = client.PostAsync(url, formData).Result;
-			string responseResult = result.Content.ReadAsStringAsync().Result;
-			return responseResult;
+			return UploadFile(url, textArea, fileArea, null);
 		}
 
 		/// <summary>
 		/// 使用自定义请求头上传文件（发送POST请求，使用multipart表单）
 		/// </summary>
 		/// <param name="url">请求地址</param>
-		/// <param name="textArea">请求内容文本域，key为字段，value为对应值</param>
-		/// <param name="fileArea">请求内容文件域，key为字段，value为对应文件路径</param>
+		/// <param name="textArea">请求内容文本域，key为字段，value为对应值，没有文本内容传入null</param>
+		/// <param name="fileArea">请求内容文件域，key为字段，value为对应文件路径，没有文件内容传入null</param>
 		/// <param name="headers">自定义的请求头，其中可以设定User-Agent值等等</param>
 		/// <returns>响应结果</returns>
 		public static string UploadFile(string url, Dictionary<string, string> textArea, Dictionary<string, string> fileArea, Dictionary<string, string> headers)
 		{
-			HttpRequestMessage requestMessage = new HttpRequestMessage();
-			requestMessage.Method = HttpMethod.Post;
+			// 组装表单
 			var formData = new MultipartFormDataContent();
-			foreach (string key in headers.Keys)
+			if (textArea != null)
 			{
-				requestMessage.Headers.TryAddWithoutValidation(key, headers[key]);
+				foreach (string key in textArea.Keys)
+				{
+					formData.Add(new StringContent(textArea[key]), key);
+				}
 			}
-			foreach (string key in textArea.Keys)
+			if (fileArea != null)
 			{
-				formData.Add(new StringContent(textArea[key]), key);
+				foreach (string key in fileArea.Keys)
+				{
+					Stream fileStream = new FileStream(fileArea[key], FileMode.Open, FileAccess.Read);
+					byte[] data = new byte[fileStream.Length];
+					fileStream.Read(data, 0, data.Length);
+					fileStream.Close();
+					formData.Add(new ByteArrayContent(data), key, FilePathUtils.GetFileName(fileArea[key]));
+				}
 			}
-			foreach (string key in fileArea.Keys)
-			{
-				Stream fileStream = new FileStream(fileArea[key], FileMode.Open, FileAccess.Read);
-				byte[] data = new byte[fileStream.Length];
-				fileStream.Read(data, 0, data.Length);
-				fileStream.Close();
-				formData.Add(new ByteArrayContent(data), key, FilePathUtils.GetFileName(fileArea[key]));
-			}
-			requestMessage.RequestUri = new Uri(url);
-			requestMessage.Content = formData;
-			HttpClient client = new HttpClient();
-			HttpResponseMessage result = client.SendAsync(requestMessage).Result;
-			string responseResult = result.Content.ReadAsStringAsync().Result;
-			return responseResult;
+			// 发送请求获取结果
+			Stream streamResult = SendCustomRequest(url, HttpMethod.Post, headers, formData).Content.ReadAsStreamAsync().Result;
+			StreamReader reader = new StreamReader(streamResult);
+			string result = reader.ReadToEnd();
+			reader.Close();
+			streamResult.Close();
+			return result;
 		}
 	}
 }

@@ -17,37 +17,7 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>是否替换成功</returns>
 		public static bool ReplaceSpecificLine(string filePath, string content, int line)
 		{
-			bool success = false;
-			int totalLine = TextFileReader.GetFileLine(filePath);
-			if (line <= 0)
-			{
-				return success;
-			}
-			if (line > totalLine)
-			{
-				return success;
-			}
-			string text = "";
-			StreamReader reader = new StreamReader(filePath);
-			for (int i = 0; i < line - 1; i++)
-			{
-				text = text + reader.ReadLine() + "\r\n";
-			}
-			reader.ReadLine();
-			text = text + content + "\r\n";
-			for (int i = 0; i < totalLine - line; i++)
-			{
-				text = text + reader.ReadLine() + "\r\n";
-			}
-			reader.Close();
-			StreamWriter writer = new StreamWriter(filePath);
-			writer.Write(text);
-			writer.Close();
-			if (TextFileReader.ReadSpecificLine(filePath, line).Equals(content))
-			{
-				success = true;
-			}
-			return success;
+			return ReplaceSpecificLine(filePath, content, line, Encoding.Default);
 		}
 
 		/// <summary>
@@ -101,20 +71,7 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>是否追加成功</returns>
 		public static bool AppendText(string filePath, string content)
 		{
-			bool success = false;
-			string originContent = content;
-			if (!File.ReadAllText(filePath).EndsWith("\r\n"))
-			{
-				content = "\r\n" + content;
-			}
-			StreamWriter writer = new StreamWriter(filePath, true);
-			writer.WriteLine(content);
-			writer.Close();
-			if (TextFileReader.ReadSpecificLine(filePath, TextFileReader.GetFileLine(filePath)).Equals(originContent))
-			{
-				success = true;
-			}
-			return success;
+			return AppendText(filePath, content, Encoding.Default);
 		}
 
 		/// <summary>
@@ -151,36 +108,7 @@ namespace Swsk33.ReadAndWriteSharp.FileUtil
 		/// <returns>是否插入成功</returns>
 		public static bool InsertText(string filePath, string content, int line)
 		{
-			bool success = false;
-			int totalLine = TextFileReader.GetFileLine(filePath);
-			if (line < 0)
-			{
-				return success;
-			}
-			if (line > totalLine)
-			{
-				return success;
-			}
-			string text = "";
-			StreamReader reader = new StreamReader(filePath);
-			for (int i = 0; i < line; i++)
-			{
-				text = text + reader.ReadLine() + "\r\n";
-			}
-			text = text + content + "\r\n";
-			for (int i = 0; i < totalLine - line; i++)
-			{
-				text = text + reader.ReadLine() + "\r\n";
-			}
-			reader.Close();
-			StreamWriter writer = new StreamWriter(filePath);
-			writer.Write(text);
-			writer.Close();
-			if (TextFileReader.ReadSpecificLine(filePath, line + 1).Equals(content))
-			{
-				success = true;
-			}
-			return success;
+			return InsertText(filePath, content, line, Encoding.Default);
 		}
 
 		/// <summary>

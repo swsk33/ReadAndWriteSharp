@@ -325,11 +325,22 @@ namespace Swsk33.ReadAndWriteSharp.System
 		}
 
 		/// <summary>
-		/// 获取系统环境变量
+		/// 获取系统环境变量，不展开变量引用
 		/// </summary>
 		/// <param name="name">环境变量名</param>
 		/// <returns>该环境变量的值，若指定环境变量名不存在则返回null</returns>
 		public static string GetEnvironmentVariable(string name)
+		{
+			return GetEnvironmentVariable(name, false);
+		}
+
+		/// <summary>
+		/// 获取环境变量，指定是否展开变量引用
+		/// </summary>
+		/// <param name="name">环境变量名</param>
+		/// <param name="expandVariables">是否展开变量引用</param>
+		/// <returns>该环境变量的值，若指定环境变量名不存在则返回null</returns>
+		public static string GetEnvironmentVariable(string name, bool expandVariables)
 		{
 			string optionName = "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment";
 			if (!IsValueExists(Registry.LocalMachine, optionName, name))
@@ -337,7 +348,7 @@ namespace Swsk33.ReadAndWriteSharp.System
 				return null;
 			}
 			RegistryKey key = Registry.LocalMachine.OpenSubKey(optionName);
-			string value = key.GetValue(name, "", RegistryValueOptions.DoNotExpandEnvironmentNames).ToString();
+			string value = key.GetValue(name, "", expandVariables ? RegistryValueOptions.None : RegistryValueOptions.DoNotExpandEnvironmentNames).ToString();
 			key.Close();
 			return value;
 		}
@@ -349,24 +360,12 @@ namespace Swsk33.ReadAndWriteSharp.System
 		/// <returns>Path变量值，为数组形式</returns>
 		public static string[] GetPathVariable(bool expandVariables)
 		{
-			RegistryKey key = Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment");
-			RegistryValueOptions option;
-			if (expandVariables)
-			{
-				option = RegistryValueOptions.None;
-			}
-			else
-			{
-				option = RegistryValueOptions.DoNotExpandEnvironmentNames;
-			}
-			string value = key.GetValue("Path", "", option).ToString();
+			string value = GetEnvironmentVariable("Path", expandVariables);
 			while (value.EndsWith(";"))
 			{
 				value = value.Substring(0, value.Length - 1);
 			}
-			string[] values = value.Split(';');
-			key.Close();
-			return values;
+			return value.Split(';');
 		}
 	}
 }
